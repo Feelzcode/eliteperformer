@@ -306,7 +306,7 @@ export default function HomePage({ content, testimonials }) {
       </div>
 
       <div className="section">
-        <div className="section-head reveal">
+        <div className="section-head section-head--center reveal">
           <div className="label">Proof</div>
           <h2 className="serif">Results from people who attended</h2>
         </div>
@@ -355,7 +355,7 @@ export default function HomePage({ content, testimonials }) {
       </div>
 
       <div className="section section-dark">
-        <div className="section-head reveal">
+        <div className="section-head section-head--center reveal">
           <div className="label">Before You Ask</div>
           <h2 className="serif">Common questions</h2>
         </div>

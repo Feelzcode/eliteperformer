@@ -44,6 +44,17 @@
   .host-copy p{font-size:var(--text-md);line-height:1.65;color:var(--muted-dark);margin:0 0 14px;}
   .quote{font-size:16px;font-style:italic;color:var(--charcoal);border-left:3px solid var(--pink);padding-left:var(--space-4);}
 
+  @media (max-width:640px){
+    .host{flex-direction:column;align-items:center;}
+    .host-photo{margin:0 auto;}
+    .host-copy{width:100%;min-width:0;}
+  }
+
+  .section-head{margin:0 0 var(--space-10);}
+  .section-head .label{font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--pink-light);margin-bottom:var(--space-2);}
+  .section-head h2{font-size:clamp(24px,4vw,30px);margin:0 0 var(--space-3);line-height:1.3;color:var(--charcoal);font-weight:400;}
+  .section-head--center{text-align:center;max-width:680px;margin-left:auto;margin-right:auto;margin-bottom:var(--space-10);}
+
   /* ---- playbook ---- */
   .section-dark{background:var(--surface);color:var(--charcoal);}
 
