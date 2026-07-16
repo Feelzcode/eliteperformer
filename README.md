@@ -36,7 +36,7 @@ since they all just call `requireAdmin(request)`.
 |---|---|---|
 | `Signal` | First load of a whole page/panel | `app/admin/page.js` while the initial `/api/content` fetch is in flight |
 | `Arc` | Button actions | Save button, login submit, form submit — small spinner replacing button text |
-| `Dots` | Passive/open-ended wait | Inside photo/video/screenshot upload buttons while Cloudinary processes |
+| `Dots` | Media/open-ended wait | Inside photo/video/screenshot upload buttons while Cloudinary processes |
 | `Bar` | Panel/route transitions | Top-of-viewport line when switching admin sidebar tabs |
 | `Skeleton` | Tables/lists | Testimonial list placeholder shape before data resolves |
 
@@ -56,6 +56,7 @@ inside `<ToastProvider>` (already wrapped around the whole app in
 - All three admin panels (profile photo, homepage videos, testimonials) with
   real save/upload logic and the loader/toast system applied per the table
   above
+- Admin dashboard (content health, pre-intake activity, EngageFoyer placeholder)
 - `app/page.js` / `components/site/HomePage.jsx` — full port of
   `calvin-black-pink.html`: hero, stats, host bio, 3-step playbook,
   why-this-matters banner, both homepage videos (DB-backed), press strip,
@@ -79,12 +80,9 @@ both pages render as styled placeholders (gradient background + caption)
 when no CMS URL is set, same as the original static HTML — there was never
 a real video file to embed, only a design for where one goes.
 
+## EngageFoyer + Zoom
 
-
-## Zoom + email, per the earlier discussion
-
-Not implemented yet since it needs your actual Zoom account/webinar ID, but
-`app/api/register/route.js` is exactly where a Zoom API registration call
-would sit, right next to the Resend send — register the person on the real
-Zoom meeting/webinar there, and Zoom's own reminder emails start firing
-automatically from that point on.
+Webinar registration, branded confirmation/reminders, and Zoom sync belong
+in EngageFoyer. Elite should POST to EngageFoyer's registration API and
+redirect to `/thank-you` for pre-intake. Wire
+`ENGAGEFOYER_APP_URL` / `ENGAGEFOYER_WEBINAR_ID` when ready.
