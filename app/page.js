@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import HomePage from "@/components/site/HomePage";
 
-export const revalidate = 60;
+// Avoid build-time DB access on Vercel (same pattern as EngageFoyer admin routes).
+export const dynamic = "force-dynamic";
 
 async function getContent() {
   const [content, testimonials] = await Promise.all([

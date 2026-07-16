@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { adminCookieName } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request) {
   const { password } = await request.json();
 

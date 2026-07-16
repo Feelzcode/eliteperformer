@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "lint": "next lint",
     "prisma:generate": "prisma generate",
@@ -15,12 +16,11 @@
     "@prisma/client": "^5.20.0",
     "cloudinary": "^2.5.1",
     "next": "14.2.15",
+    "prisma": "^5.20.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "resend": "^4.0.0",
     "swr": "^2.2.5"
   },
-  "devDependencies": {
-    "prisma": "^5.20.0"
-  }
+  "devDependencies": {}
 }

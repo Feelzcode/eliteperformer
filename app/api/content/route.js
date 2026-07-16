@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 // GET is public — the landing page fetches this at request time (or build
 // time with revalidation) to render the profile photo, homepage videos, and
 // testimonials.

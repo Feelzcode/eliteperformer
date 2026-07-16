@@ -17,7 +17,7 @@ const TESTIMONIAL_VIDEOS = [
   { time: "0:58", pct: 8 },
 ];
 
-export default function ThankYouPage({ profilePhoto }) {
+export default function ThankYouPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [calOpen, setCalOpen] = useState(false);
@@ -66,7 +66,11 @@ export default function ThankYouPage({ profilePhoto }) {
       <ScrollReveal />
 
       <div className="logo-bar">
-        {profilePhoto && <img src={profilePhoto} alt="Elite Performers Circle LLC" />}
+        <img
+          src="/logo-elite-performers.png"
+          alt="Elite Performers Circle LLC"
+          className="site-logo"
+        />
       </div>
 
       <div className="hero reveal">
