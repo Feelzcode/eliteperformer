@@ -1,0 +1,49 @@
+// Prisma schema — Postgres (Supabase/Neon both work fine on the free tier).
+// Run `npx prisma migrate dev --name init` after setting DATABASE_URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Singleton row holding editable site content (profile photo + homepage videos).
+// We only ever have one row (id = "main"), updated in place by the admin panel.
+model SiteContent {
+  id            String   @id @default("main")
+  profilePhoto  String?  // Cloudinary URL
+  video1Caption String   @default("A STRATEGY THAT WORKS")
+  video1Type    String   @default("youtube") // "youtube" | "upload"
+  video1Url     String?  // youtube URL or Cloudinary video/image URL
+  video2Caption String   @default("AND STAY CONSISTENTLY BOOKED")
+  video2Type    String   @default("youtube")
+  video2Url     String?
+  updatedAt     DateTime @updatedAt
+}
+
+model Testimonial {
+  id        Int      @id @default(autoincrement())
+  name      String
+  type      String   // "image" | "youtube"
+  mediaUrl  String?  // Cloudinary image URL, or YouTube URL
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+// Pre-webinar intake form + registration record.
+model Registrant {
+  id            String   @id @default(cuid())
+  email         String
+  creditScore   String?
+  hasCapital    String?  // radio group value
+  timeline      String?
+  strExperience String?
+  learningGoal  String?
+  zoomJoinUrl   String?
+  createdAt     DateTime @default(now())
+
+  @@index([email])
+}

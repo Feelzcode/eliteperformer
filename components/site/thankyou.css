@@ -1,0 +1,95 @@
+
+  html{scroll-behavior:smooth;}
+  a{text-decoration:none;}
+  .page{max-width:var(--max-narrow);margin:0 auto;padding:0 0 60px;}
+
+  .reveal{transform:translateY(16px);}
+
+  .logo-bar img{max-width:110px;}
+
+  .hero{padding:26px var(--space-6) 10px;text-align:center;}
+  .hero h1{font-size:clamp(28px,5vw,38px);margin:0 0 var(--space-3);}
+  .hero p{font-size:14.5px;color:var(--muted-dark);margin:0;}
+  .hero p b{color:var(--charcoal);}
+
+  /* ---- video (layout only; shared chrome in system.css) ---- */
+  .video-wrap{max-width:var(--max-form);margin:22px auto 0;padding:0 var(--space-6);}
+  .video-block{aspect-ratio:16/10;border-radius:var(--radius-lg);}
+  .video-block .sound-btn{position:absolute;top:14px;right:14px;width:34px;height:34px;}
+  .video-block .play-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:54px;height:54px;font-size:18px;}
+  .video-block .timebar{padding:10px 14px;font-size:11.5px;}
+  .video-block .timebar .track span{width:18%;}
+
+  /* ---- calendar ---- */
+  .cal-btn{display:flex;align-items:center;justify-content:center;gap:var(--space-2);max-width:var(--max-form);margin:var(--space-4) auto 0;
+    background:var(--surface);border:1px solid var(--paper-line);border-radius:var(--radius-lg);padding:13px 18px;
+    color:var(--charcoal);font-weight:700;font-size:var(--text-base);}
+  .cal-btn .ic{font-size:var(--text-md);}
+  .cal-btn .car{margin-left:auto;color:var(--muted);font-size:11px;}
+
+  /* ---- form layout ---- */
+  .form-card{max-width:var(--max-form);margin:26px auto 0;padding:0 var(--space-6);}
+  .form-inner{border-radius:var(--radius-xl);padding:26px 22px;}
+  .form-inner h3.serif{font-size:19px;text-align:center;margin:0 0 14px;}
+  .form-inner .intro{font-size:13.5px;color:var(--muted-dark);text-align:center;margin:0 0 22px;line-height:1.6;}
+
+  /* ---- checklist ---- */
+  .divider{max-width:var(--max-form);margin:34px auto 0;padding:0 var(--space-6);}
+  .divider hr{border:none;border-top:1px solid var(--paper-line);}
+  .checklist{max-width:var(--max-form);margin:0 auto;padding:26px var(--space-6) 0;}
+  .checklist h2.serif{font-size:24px;text-align:center;margin:0 0 22px;}
+  .check-item{display:flex;gap:var(--space-4);margin-bottom:22px;}
+  .check-num{flex-shrink:0;width:34px;height:34px;border-radius:50%;border:1px solid var(--pink);
+    display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;
+    font-size:13px;color:var(--pink-light);}
+  .check-copy{flex:1;min-width:0;}
+  .check-item .num-title{font-weight:800;font-size:var(--text-md);margin-bottom:var(--space-2);}
+  .check-item p{font-size:13.5px;color:var(--muted-dark);line-height:1.6;margin:0;}
+
+  .mock-email{background:var(--ink);border:1px solid var(--paper-line);border-radius:var(--radius-md);padding:14px;margin:12px 0;}
+  .mock-email .subj{font-size:var(--text-sm);color:var(--muted);margin-bottom:10px;}
+  .mock-email .btns{display:flex;flex-wrap:wrap;gap:10px;}
+  .mock-email .btns span{font-size:11.5px;padding:var(--space-2) var(--space-3);border-radius:var(--radius-sm);border:1px solid var(--paper-line);color:var(--muted-dark);}
+  .mock-email .btns .highlight{border-color:var(--pink);color:var(--pink-light);font-weight:700;}
+  .arrow-note{font-size:11px;color:var(--muted);text-align:center;margin-top:6px;font-style:italic;}
+
+  /* ---- FAQ / testimonial videos (layout only) ---- */
+  .faq-section{max-width:var(--max-form);margin:36px auto 0;padding:0 var(--space-6);text-align:center;}
+  .faq-section h2.serif{font-size:23px;line-height:1.35;margin:0 0 var(--space-5);}
+  .faq-video{border-radius:var(--radius-lg);aspect-ratio:16/9;margin-bottom:14px;text-align:left;}
+  .testi-video{border-radius:var(--radius-lg);aspect-ratio:16/10;margin-bottom:14px;}
+  .faq-video .play-center{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;font-size:16px;}
+  .testi-video .play-center{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;font-size:14px;}
+  .testi-video .sound-btn{position:absolute;top:12px;right:12px;width:30px;height:30px;font-size:var(--text-sm);}
+  .faq-video .cap{padding:12px 14px 6px;font-size:13.5px;}
+  .faq-video .timebar{padding:0 14px 10px;font-size:11px;}
+  .testi-video .timebar{padding:var(--space-2) var(--space-3);font-size:11px;}
+
+  .testi-section{max-width:var(--max-form);margin:36px auto 0;padding:0 var(--space-6);text-align:center;}
+  .testi-section h2.serif{font-size:22px;margin:0 0 var(--space-5);}
+
+  .footer-strip{margin-top:var(--space-5);}
+
+  @media (min-width:700px){
+    .page{max-width:640px;}
+    .hero p{font-size:15.5px;}
+    .cal-btn{max-width:520px;}
+    .form-card{max-width:560px;}
+    .form-inner{padding:34px 36px;}
+    .divider{max-width:560px;}
+    .checklist{max-width:560px;padding:30px var(--space-6) 0;}
+    .checklist h2.serif{font-size:27px;}
+    .faq-section{max-width:560px;}
+    .faq-section h2.serif{font-size:25px;}
+    .testi-section{max-width:560px;}
+    .testi-section h2.serif{font-size:24px;}
+  }
+  @media (min-width:1024px){
+    .page{max-width:700px;padding-bottom:80px;}
+    .logo-bar{padding:30px var(--space-6) var(--space-2);}
+    .hero{padding:36px var(--space-6) 12px;}
+    .form-card{max-width:600px;}
+    .checklist{max-width:600px;}
+    .faq-section{max-width:600px;}
+    .testi-section{max-width:600px;}
+  }
