@@ -3,6 +3,7 @@
 import { useState } from "react";
 import "./thankyou.css";
 import ScrollReveal from "./ScrollReveal";
+import { useToast } from "@/components/ui/Toast";
 
 const FAQ_VIDEOS = [
   { cap: "What if I live in a city that has Airbnb restrictions?", time: "2:46", pct: 8 },
@@ -17,10 +18,11 @@ const TESTIMONIAL_VIDEOS = [
   { time: "0:58", pct: 8 },
 ];
 
-export default function ThankYouPage() {
+export default function ThankYouPage({ defaultEmail = "" }) {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [calOpen, setCalOpen] = useState(false);
+  const toast = useToast();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -35,14 +37,17 @@ export default function ThankYouPage() {
       learningGoal: form.learningGoal.value,
     };
     try {
-      await fetch("/api/register", {
+      const res = await fetch("/api/pre-intake", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+      if (!res.ok) throw new Error();
+      setSubmitted(true);
+    } catch {
+      toast.error("Could not save your answers — please try again");
     } finally {
       setSubmitting(false);
-      setSubmitted(true);
     }
   }
 
@@ -139,7 +144,13 @@ export default function ThankYouPage() {
               <form onSubmit={handleSubmit}>
                 <div className="f-group">
                   <label className="f-label">Email *</label>
-                  <input type="email" name="email" placeholder="The same email you used to sign up" required />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="The same email you used to sign up"
+                    defaultValue={defaultEmail}
+                    required
+                  />
                 </div>
 
                 <div className="f-group">

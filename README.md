@@ -85,4 +85,4 @@ a real video file to embed, only a design for where one goes.
 Webinar registration, branded confirmation/reminders, and Zoom sync belong
 in EngageFoyer. Elite should POST to EngageFoyer's registration API and
 redirect to `/thank-you` for pre-intake. Wire
-`ENGAGEFOYER_APP_URL` / `ENGAGEFOYER_WEBINAR_ID` when ready.
+`ENGAGEFOYER_APP_URL` / `ENGAGEFOYER_API_KEY` when ready (generate the key in EngageFoyer Settings → Registration API).

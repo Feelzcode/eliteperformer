@@ -6,6 +6,14 @@ import "./home.css";
 import ScrollReveal from "./ScrollReveal";
 import Ticker from "./Ticker";
 import { extractYouTubeId, youtubeEmbedUrl } from "@/lib/youtube";
+import { useToast } from "@/components/ui/Toast";
+
+function parsePhone(countryCodeLabel, localNumber) {
+  const codeMatch = countryCodeLabel.match(/\+(\d+)/);
+  const digits = localNumber.replace(/\D/g, "");
+  if (!digits) return undefined;
+  return codeMatch ? `+${codeMatch[1]}${digits}` : digits;
+}
 
 function VideoBlock({ caption, type, url, fallbackBg }) {
   const ytId = type === "youtube" ? extractYouTubeId(url) : null;
@@ -137,6 +145,7 @@ export default function HomePage({ content, testimonials }) {
   const [submitting, setSubmitting] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
   const router = useRouter();
+  const toast = useToast();
 
   function openModal() {
     setModalOpen(true);
@@ -149,19 +158,34 @@ export default function HomePage({ content, testimonials }) {
     e.preventDefault();
     setSubmitting(true);
     const form = e.target;
-    const email = form.email.value;
+    const email = form.email.value.trim();
+    const payload = {
+      fullName: form.fullName.value.trim(),
+      email,
+      phone: parsePhone(form.countryCode.value, form.phone.value),
+      whatsappConsent: form.consentBox.checked,
+    };
+
     try {
-      await fetch("/api/register", {
+      const res = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify(payload),
       });
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        toast.error(data.error || "Registration failed — please try again");
+        setSubmitting(false);
+        return;
+      }
+
+      closeModal();
+      router.push(`/thank-you?email=${encodeURIComponent(email)}`);
     } catch {
-      // fall through — still redirect, matches original "submit then redirect regardless" UX
+      toast.error("Could not reach the server — check your connection");
+      setSubmitting(false);
     }
-    setTimeout(() => {
-      router.push("/thank-you");
-    }, 900);
   }
 
   return (

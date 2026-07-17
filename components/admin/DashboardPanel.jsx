@@ -97,8 +97,8 @@ export default function DashboardPanel({ onNavigate }) {
         <div className="card ef-link-card">
           <h3>Webinar funnel</h3>
           <p className="sub">
-            Set <code>ENGAGEFOYER_APP_URL</code> and <code>ENGAGEFOYER_WEBINAR_ID</code> in your env to
-            enable the link. Signup counts will sync after integration.
+            Set <code>ENGAGEFOYER_APP_URL</code> and <code>ENGAGEFOYER_API_KEY</code> in your env to
+            enable registration and the dashboard link. Generate the API key in EngageFoyer Settings.
           </p>
         </div>
       )}

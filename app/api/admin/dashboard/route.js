@@ -38,7 +38,7 @@ export async function GET(request) {
 
   const preIntake = registrants.filter(hasPreIntake);
   const engagefoyerUrl = process.env.ENGAGEFOYER_APP_URL?.replace(/\/$/, "") || null;
-  const webinarId = process.env.ENGAGEFOYER_WEBINAR_ID || null;
+  const apiKeyConfigured = Boolean(process.env.ENGAGEFOYER_API_KEY);
 
   return NextResponse.json({
     stats: {
@@ -59,12 +59,8 @@ export async function GET(request) {
       createdAt: r.createdAt.toISOString(),
     })),
     engagefoyer: {
-      connected: Boolean(engagefoyerUrl && webinarId),
-      dashboardUrl: engagefoyerUrl
-        ? webinarId
-          ? `${engagefoyerUrl}/dashboard/webinars/${webinarId}`
-          : `${engagefoyerUrl}/dashboard/webinars`
-        : null,
+      connected: Boolean(engagefoyerUrl && apiKeyConfigured),
+      dashboardUrl: engagefoyerUrl ? `${engagefoyerUrl}/dashboard/webinars` : null,
       signupCount: null,
     },
   });
