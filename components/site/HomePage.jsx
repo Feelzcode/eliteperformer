@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import "./home.css";
 import ScrollReveal from "./ScrollReveal";
 import Ticker from "./Ticker";
@@ -143,20 +142,23 @@ function CtaButton({ onClick, big, children }) {
 export default function HomePage({ content, testimonials }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submitLabel, setSubmitLabel] = useState("Claim Your Spot");
   const [openFaq, setOpenFaq] = useState(0);
-  const router = useRouter();
   const toast = useToast();
 
   function openModal() {
+    if (submitting) return;
     setModalOpen(true);
   }
   function closeModal() {
+    if (submitting) return;
     setModalOpen(false);
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
     setSubmitting(true);
+    setSubmitLabel("Submitting…");
     const form = e.target;
     const email = form.email.value.trim();
     const payload = {
@@ -177,14 +179,17 @@ export default function HomePage({ content, testimonials }) {
       if (!res.ok) {
         toast.error(data.error || "Registration failed — please try again");
         setSubmitting(false);
+        setSubmitLabel("Claim Your Spot");
         return;
       }
 
-      closeModal();
-      router.push(`/thank-you?email=${encodeURIComponent(email)}`);
+      // Keep modal + button busy until navigation completes so success is visible.
+      setSubmitLabel("You're in — redirecting…");
+      window.location.assign(`/thank-you?email=${encodeURIComponent(email)}`);
     } catch {
       toast.error("Could not reach the server — check your connection");
       setSubmitting(false);
+      setSubmitLabel("Claim Your Spot");
     }
   }
 
@@ -448,7 +453,7 @@ export default function HomePage({ content, testimonials }) {
                 </label>
               </div>
               <button type="submit" className="claim-btn" disabled={submitting}>
-                {submitting ? "Submitting..." : "Claim Your Spot"}
+                {submitLabel}
               </button>
             </form>
             <p className="legal-links"><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a></p>
