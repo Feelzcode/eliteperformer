@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +11,7 @@ export const runtime = "nodejs";
  *
  * Auth: Authorization: Bearer <CRON_SECRET>
  */
-export async function GET(req: NextRequest) {
+export async function GET(req) {
   const authHeader = req.headers.get("authorization");
   const secret = process.env.CRON_SECRET;
 
