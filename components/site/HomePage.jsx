@@ -210,11 +210,12 @@ export default function HomePage({ content, testimonials }) {
       <div className="hero">
         <div className="eyebrow">Free Live Workshop · Wed, July 8 · 7PM EST</div>
         <h1 className="serif reveal">
-          Control <em>$10–20k/mo</em> of cash-flowing Airbnb units — without owning a single property
+          <em>Learn</em> how to <em>build a $10K–$20K/month Airbnb business</em> without owning a
+          single property or investing your personal money.
         </h1>
         <p className="hero-sub reveal">
-          A live 90-minute session on the exact rental-arbitrage playbook I used to leave medicine and
-          build a 7-figure portfolio, using none of my own capital to start.
+          A 2 hour live webinar on How I Built a 6-Figure Airbnb Business Without Owning Property or
+          Using My Own Money.
         </p>
         <CtaButton onClick={openModal} big>
           <span className="l1">Save My Free Seat</span>
@@ -223,23 +224,6 @@ export default function HomePage({ content, testimonials }) {
         <p className="social-line reveal">
           Limited to 300 live seats — <b>214</b> already reserved
         </p>
-      </div>
-
-      <div className="stats">
-        <div className="stats-row reveal">
-          <div className="stat-block">
-            <div className="num">1,200+</div>
-            <div className="lbl">Professionals taught the arbitrage model</div>
-          </div>
-          <div className="stat-block">
-            <div className="num">$40M+</div>
-            <div className="lbl">In annual bookings across student units</div>
-          </div>
-          <div className="stat-block">
-            <div className="num">$0</div>
-            <div className="lbl">Of Ekene&apos;s own capital used to start</div>
-          </div>
-        </div>
       </div>
 
       <div className="section">
@@ -255,10 +239,11 @@ export default function HomePage({ content, testimonials }) {
             <div className="label">Your host</div>
             <h3 className="serif">Ekene</h3>
             <p>
-              Former medical professional turned 7-figure Airbnb investor. Ekene now controls a
-              portfolio of cash-flowing short-term rental units without owning any of the underlying
-              real estate, and has helped hundreds of working professionals do the same on the side of
-              their careers.
+              I came to the U.S. as an international student with big dreams and limited resources.
+              After college, I worked in medical transportation while driving Uber and Lyft to make
+              ends meet. I discovered Airbnb rental arbitrage, built a 6-figure portfolio without
+              owning real estate or using my own capital, and now I&apos;m scaling toward 7 figures
+              while helping others do the same.
             </p>
             <p className="quote">&quot;You don&apos;t need to own the building to own the income it produces.&quot;</p>
           </div>

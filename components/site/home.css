@@ -13,7 +13,12 @@
     padding:22px var(--space-6) 6px;background:#0A0A0D;
   }
   .logo-bar .site-logo{
-    display:block;width:auto;max-width:120px;height:auto;
+    display:block;
+    width:auto;
+    max-width:168px;
+    height:auto;
+    object-fit:contain;
+    aspect-ratio:1 / 1;
   }
 
   /* ---- countdown ticker ---- */

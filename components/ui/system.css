@@ -313,8 +313,8 @@ input[type="password"]:focus{
 
 /* ---- chrome ---- */
 .logo-bar{background:#0A0A0D;text-align:center;padding:22px var(--space-6) 6px;}
-.logo-bar img{margin:0 auto;display:block;max-width:120px;height:auto;}
-.logo-bar .site-logo{width:auto;max-width:120px;height:auto;}
+.logo-bar img{margin:0 auto;display:block;max-width:168px;height:auto;object-fit:contain;}
+.logo-bar .site-logo{width:auto;max-width:168px;height:auto;object-fit:contain;aspect-ratio:1 / 1;}
 
 .footer-strip{
   padding:var(--space-6);
