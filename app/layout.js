@@ -2,9 +2,41 @@ import "./globals.css";
 import { ToastProvider } from "@/components/ui/Toast";
 import ThemeToggle from "@/components/ThemeToggle";
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  process.env.APP_URL?.replace(/\/$/, "") ||
+  "https://eliteperformerscircle.com";
+
 export const metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Elite Performers Circle",
   description: "Free live workshop on Airbnb rental arbitrage.",
+  icons: {
+    icon: [{ url: "/logo-elite-performers.png", type: "image/png" }],
+    apple: [{ url: "/logo-elite-performers.png", type: "image/png" }],
+    shortcut: "/logo-elite-performers.png",
+  },
+  openGraph: {
+    title: "Elite Performers Circle",
+    description: "Free live workshop on Airbnb rental arbitrage.",
+    siteName: "Elite Performers Circle",
+    type: "website",
+    url: siteUrl,
+    images: [
+      {
+        url: "/logo-elite-performers.png",
+        width: 512,
+        height: 512,
+        alt: "Elite Performers Circle",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: "Elite Performers Circle",
+    description: "Free live workshop on Airbnb rental arbitrage.",
+    images: ["/logo-elite-performers.png"],
+  },
 };
 
 export default function RootLayout({ children }) {
