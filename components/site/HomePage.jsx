@@ -245,7 +245,6 @@ export default function HomePage({ content, testimonials }) {
               owning real estate or using my own capital, and now I&apos;m scaling toward 7 figures
               while helping others do the same.
             </p>
-            <p className="quote">&quot;You don&apos;t need to own the building to own the income it produces.&quot;</p>
           </div>
         </div>
       </div>
