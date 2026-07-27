@@ -225,8 +225,23 @@ input[type="password"]:focus{
   background:var(--surface);
 }
 
-.phone-row select{border:none;font-size:var(--text-base);background:none;padding:12px 0;color:var(--charcoal);}
-.phone-row input{border:none;padding:12px 0;flex:1;background:transparent;}
+.phone-row select{
+  border:none;
+  font-size:var(--text-base);
+  background:transparent;
+  padding:12px 4px 12px 0;
+  color:var(--charcoal);
+  color-scheme:inherit;
+  max-width:118px;
+  cursor:pointer;
+}
+.phone-row select option{
+  background:var(--surface);
+  color:var(--charcoal);
+}
+.phone-row input{border:none;padding:12px 0;flex:1;background:transparent;color:var(--charcoal);}
+.phone-row input:focus{outline:none;}
+.phone-row select:focus,
 .phone-row input:focus{outline:none;}
 
 .radio-row{

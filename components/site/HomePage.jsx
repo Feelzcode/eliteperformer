@@ -5,7 +5,10 @@ import "./home.css";
 import ScrollReveal from "./ScrollReveal";
 import Ticker from "./Ticker";
 import { extractYouTubeId, youtubeEmbedUrl } from "@/lib/youtube";
+import { COUNTRY_DIAL_CODES, countryDialOptionValue } from "@/lib/country-dial-codes";
 import { useToast } from "@/components/ui/Toast";
+
+const DEFAULT_COUNTRY_CODE = countryDialOptionValue(COUNTRY_DIAL_CODES[0]);
 
 function parsePhone(countryCodeLabel, localNumber) {
   const codeMatch = countryCodeLabel.match(/\+(\d+)/);
@@ -419,11 +422,15 @@ export default function HomePage({ content, testimonials }) {
               <div className="field-row"><input type="text" name="fullName" placeholder="Full name" required /></div>
               <div className="field-row"><input type="email" name="email" placeholder="Email" required /></div>
               <div className="field-row phone-row">
-                <select name="countryCode">
-                  <option>🇳🇬 +234</option>
-                  <option>🇺🇸 +1</option>
-                  <option>🇬🇧 +44</option>
-                  <option>🇨🇦 +1</option>
+                <select name="countryCode" defaultValue={DEFAULT_COUNTRY_CODE} aria-label="Country dial code">
+                  {COUNTRY_DIAL_CODES.map((country) => {
+                    const value = countryDialOptionValue(country);
+                    return (
+                      <option key={`${country.name}-${country.dial}`} value={value}>
+                        {country.flag} {country.dial}
+                      </option>
+                    );
+                  })}
                 </select>
                 <input type="tel" name="phone" placeholder="Phone number" required />
               </div>
