@@ -21,8 +21,10 @@ main.admin-main .card{background:var(--ink-soft);}
 
 main.admin-main input[type="text"],
 main.admin-main input[type="url"],
-main.admin-main input[type="password"]{
-  background:var(--ink);
+main.admin-main input[type="password"],
+main.admin-main input[type="email"]{
+  background:var(--input-bg);
+  color:var(--input-text);
 }
 
 .panel-head{margin-bottom:var(--space-7);}
@@ -36,8 +38,8 @@ main.admin-main input[type="password"]{
 .photo-preview img{width:100%;height:100%;object-fit:cover;}
 .photo-actions{flex:1;min-width:220px;}
 
-.file-btn{display:inline-flex;align-items:center;gap:var(--space-2);padding:10px 18px;font-size:13px;font-weight:600;background:var(--ink);
-  border:1px solid var(--pink);color:var(--pink-light);cursor:pointer;margin-bottom:10px;}
+.file-btn{display:inline-flex;align-items:center;gap:var(--space-2);padding:10px 18px;font-size:13px;font-weight:600;background:var(--input-bg);
+  border:1px solid var(--pink);color:var(--pink);cursor:pointer;margin-bottom:10px;}
 .file-btn:hover{background:var(--accent-bg-soft);}
 .file-btn input{display:none;}
 
@@ -52,14 +54,14 @@ main.admin-main input[type="password"]{
 .testi-body{display:flex;gap:var(--space-5);flex-wrap:wrap;}
 .testi-fields{flex:1;min-width:240px;}
 .testi-preview{width:120px;flex-shrink:0;}
-.preview-box{width:120px;aspect-ratio:9/16;background:var(--ink);border:1px solid var(--paper-line);
+.preview-box{width:120px;aspect-ratio:9/16;background:var(--surface-media);border:1px solid var(--paper-line);
   display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;color:var(--muted);font-size:11px;text-align:center;}
 .preview-box img{width:100%;height:100%;object-fit:cover;}
 .preview-box .play-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   background:var(--overlay-card);color:var(--text-on-dark);font-size:13px;}
 
 .media-toggle{display:flex;gap:0;margin-bottom:14px;border:1px solid var(--paper-line);width:fit-content;}
-.media-toggle button{padding:7px var(--space-4);font-size:12.5px;font-weight:600;background:var(--ink);border:none;
+.media-toggle button{padding:7px var(--space-4);font-size:12.5px;font-weight:600;background:var(--input-bg);border:none;
   color:var(--muted-dark);cursor:pointer;font-family:inherit;}
 .media-toggle button.active{background:var(--pink);color:var(--text-on-accent);}
 
@@ -107,7 +109,7 @@ main.admin-main input[type="password"]{
 .ef-link-card .ef-link-btn:hover{text-decoration:underline;}
 .ef-link-card code{font-size:11.5px;color:var(--muted-dark);}
 
-.save-bar{position:sticky;bottom:0;background:var(--ink);border-top:1px solid var(--paper-line);
+.save-bar{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--paper-line);
   padding:var(--space-4) var(--space-10);display:flex;justify-content:flex-end;gap:10px;margin:0 calc(-1 * var(--space-10));}
 
 .mobile-topbar{display:none;}

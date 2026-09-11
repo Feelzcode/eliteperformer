@@ -169,18 +169,23 @@
 .f-group select,
 .f-group textarea,
 input[type="text"],
+input[type="email"],
+input[type="tel"],
 input[type="url"],
 input[type="password"]{
   width:100%;
   padding:12px 13px;
-  background:var(--surface);
+  background:var(--input-bg);
   border:1px solid var(--paper-line);
-  color:var(--charcoal);
+  color:var(--input-text);
   font-size:var(--text-base);
   font-family:inherit;
+  color-scheme:inherit;
 }
 
 input[type="text"],
+input[type="email"],
+input[type="tel"],
 input[type="url"],
 input[type="password"]{padding:10px 12px;font-size:13.5px;}
 
@@ -199,10 +204,28 @@ input[type="password"]{padding:10px 12px;font-size:13.5px;}
 .f-group select:focus,
 .f-group textarea:focus,
 input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
 input[type="url"]:focus,
 input[type="password"]:focus{
   outline:none;
   border-color:var(--pink);
+}
+
+/* Keep autofill from forcing a dark/yellow browser chrome look */
+.input:-webkit-autofill,
+.field-row input:-webkit-autofill,
+.f-group input:-webkit-autofill,
+.phone-row input:-webkit-autofill,
+input[type="text"]:-webkit-autofill,
+input[type="email"]:-webkit-autofill,
+input[type="tel"]:-webkit-autofill,
+input[type="url"]:-webkit-autofill,
+input[type="password"]:-webkit-autofill{
+  -webkit-text-fill-color:var(--input-text) !important;
+  caret-color:var(--input-text);
+  box-shadow:0 0 0 1000px var(--input-bg) inset !important;
+  transition:background-color 99999s ease-out;
 }
 
 .f-group{margin-bottom:var(--space-5);}
@@ -222,7 +245,7 @@ input[type="password"]:focus{
   align-items:center;
   border:1px solid var(--paper-line);
   padding:0 10px;
-  background:var(--surface);
+  background:var(--input-bg);
 }
 
 .phone-row select{
@@ -230,16 +253,16 @@ input[type="password"]:focus{
   font-size:var(--text-base);
   background:transparent;
   padding:12px 4px 12px 0;
-  color:var(--charcoal);
+  color:var(--input-text);
   color-scheme:inherit;
   max-width:118px;
   cursor:pointer;
 }
 .phone-row select option{
-  background:var(--surface);
-  color:var(--charcoal);
+  background:var(--input-bg);
+  color:var(--input-text);
 }
-.phone-row input{border:none;padding:12px 0;flex:1;background:transparent;color:var(--charcoal);}
+.phone-row input{border:none;padding:12px 0;flex:1;background:transparent;color:var(--input-text);}
 .phone-row input:focus{outline:none;}
 .phone-row select:focus,
 .phone-row input:focus{outline:none;}

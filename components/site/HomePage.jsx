@@ -99,6 +99,7 @@ const FAQ_ITEMS = [
   },
 ];
 
+/* Reserved for the commented-out "4 Secrets" homepage section — uncomment with that block.
 const SECRETS = [
   {
     tag: "Secret #1",
@@ -133,6 +134,7 @@ const SECRETS = [
     ],
   },
 ];
+*/
 
 function CtaButton({ onClick, big, children }) {
   return (
@@ -217,8 +219,7 @@ export default function HomePage({ content, testimonials }) {
           single property or investing your personal money.
         </h1>
         <p className="hero-sub reveal">
-          A 2 hour live webinar on How I Built a 6-Figure Airbnb Business Without Owning Property or
-          Using My Own Money.
+          Using NONE of your own money to start!
         </p>
         <CtaButton onClick={openModal} big>
           <span className="l1">Save My Free Seat</span>
@@ -256,24 +257,30 @@ export default function HomePage({ content, testimonials }) {
         <div className="wrap">
           <div className="section-head reveal">
             <div className="label">The Playbook</div>
-            <h2 className="serif">Three moves, in order</h2>
-            <p>Skip any one of these and the model breaks. Here&apos;s the sequence, previewed free.</p>
+            <h2 className="serif">
+              The Exact Playbook To Control Cash-Flowing Real Estate Without Owning A Single
+              Property
+            </h2>
+            <p>(Here&apos;s A Preview Of What You&apos;ll Learn For FREE)</p>
           </div>
           <div className="steps">
             <div className="step reveal">
-              <div className="num mono">01</div>
-              <h4>Find the deal</h4>
-              <p>How to identify high-margin arbitrage units in your area before anyone else does — even in a &quot;saturated&quot; market.</p>
+              <div className="step-check" aria-hidden>
+                ✓
+              </div>
+              <h4>How to find high profit deals in your area</h4>
             </div>
             <div className="step reveal">
-              <div className="num mono">02</div>
-              <h4>Secure the unit</h4>
-              <p>Structure a 0%-interest agreement with the landlord so you control the property using none of your own money.</p>
+              <div className="step-check" aria-hidden>
+                ✓
+              </div>
+              <h4>Secure funding at 0% interest to control these units using none of your own money</h4>
             </div>
             <div className="step reveal">
-              <div className="num mono">03</div>
-              <h4>Automate the income</h4>
-              <p>Set up systems so the unit runs itself and the rental income lands passively, month after month.</p>
+              <div className="step-check" aria-hidden>
+                ✓
+              </div>
+              <h4>Automate your property and achieve passive rental income every month</h4>
             </div>
           </div>
         </div>
@@ -297,6 +304,7 @@ export default function HomePage({ content, testimonials }) {
         </CtaButton>
       </div>
 
+      {/* Second video block — hidden for now; re-enable when a second VSL is ready.
       <VideoBlock
         caption={content.video2Caption}
         type={content.video2Type}
@@ -309,17 +317,7 @@ export default function HomePage({ content, testimonials }) {
           <span className="l2">Join Ekene This Wednesday At 7 PM EST</span>
         </CtaButton>
       </div>
-
-      <div className="press">
-        <p className="reveal">As Seen On...</p>
-        <div className="press-logos reveal">
-          <span>Forbes</span>
-          <span>BiggerPockets</span>
-          <span>Business Insider</span>
-          <span>Rental Scale-Up</span>
-          <span>Skift</span>
-        </div>
-      </div>
+      */}
 
       <div className="section">
         <div className="section-head section-head--center reveal">
@@ -343,6 +341,7 @@ export default function HomePage({ content, testimonials }) {
         </div>
       </div>
 
+      {/* "4 Secrets" section — commented out; keep for future homepage use.
       <div className="secrets">
         <div className="section-head reveal">
           <div className="label">Revealed Live On This Free Workshop</div>
@@ -369,6 +368,7 @@ export default function HomePage({ content, testimonials }) {
           </CtaButton>
         </div>
       </div>
+      */}
 
       <div className="section section-dark">
         <div className="section-head section-head--center reveal">

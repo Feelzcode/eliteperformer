@@ -1,41 +1,32 @@
 import "./globals.css";
 import { ToastProvider } from "@/components/ui/Toast";
 import ThemeToggle from "@/components/ThemeToggle";
-
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  process.env.APP_URL?.replace(/\/$/, "") ||
-  "https://eliteperformerscircle.com";
+import {
+  DEFAULT_DESCRIPTION,
+  DEFAULT_OG_IMAGE_ALT,
+  DEFAULT_TITLE,
+  SITE_NAME,
+  sharedOpenGraph,
+  sharedTwitter,
+  siteBaseUrl,
+} from "@/lib/site-seo";
 
 export const metadata = {
-  metadataBase: new URL(siteUrl),
-  title: "Elite Performers Circle",
-  description: "Free live workshop on Airbnb rental arbitrage.",
+  metadataBase: new URL(siteBaseUrl()),
+  title: {
+    default: DEFAULT_TITLE,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: DEFAULT_DESCRIPTION,
   icons: {
     icon: [{ url: "/logo-elite-performers.png", type: "image/png" }],
     apple: [{ url: "/logo-elite-performers.png", type: "image/png" }],
     shortcut: "/logo-elite-performers.png",
   },
-  openGraph: {
-    title: "Elite Performers Circle",
-    description: "Free live workshop on Airbnb rental arbitrage.",
-    siteName: "Elite Performers Circle",
-    type: "website",
-    url: siteUrl,
-    images: [
-      {
-        url: "/logo-elite-performers.png",
-        width: 512,
-        height: 512,
-        alt: "Elite Performers Circle",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary",
-    title: "Elite Performers Circle",
-    description: "Free live workshop on Airbnb rental arbitrage.",
-    images: ["/logo-elite-performers.png"],
+  openGraph: sharedOpenGraph(DEFAULT_TITLE, DEFAULT_DESCRIPTION),
+  twitter: sharedTwitter(DEFAULT_TITLE, DEFAULT_DESCRIPTION),
+  other: {
+    "og:image:alt": DEFAULT_OG_IMAGE_ALT,
   },
 };
 

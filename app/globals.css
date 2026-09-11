@@ -80,6 +80,8 @@
   --charcoal:var(--text);
   --muted:var(--text-muted);
   --muted-dark:var(--text-muted-strong);
+  --input-bg:var(--surface);
+  --input-text:var(--text);
 }
 
 [data-theme="light"]{
@@ -114,6 +116,9 @@
   --shadow-float:0 8px 24px rgba(26,23,32,.18);
   --shadow-float-soft:0 8px 24px rgba(26,23,32,.12);
   --gradient-accent:linear-gradient(180deg,var(--pink-light),var(--pink));
+  /* Form fields must stay light even though --ink/--surface-strong stay dark for accents */
+  --input-bg:#FFFFFF;
+  --input-text:#1A1720;
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}

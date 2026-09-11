@@ -1,8 +1,21 @@
 import { prisma } from "@/lib/prisma";
 import HomePage from "@/components/site/HomePage";
+import {
+  DEFAULT_DESCRIPTION,
+  DEFAULT_TITLE,
+  sharedOpenGraph,
+  sharedTwitter,
+} from "@/lib/site-seo";
 
 // Avoid build-time DB access on Vercel (same pattern as EngageFoyer admin routes).
 export const dynamic = "force-dynamic";
+
+export const metadata = {
+  title: DEFAULT_TITLE,
+  description: DEFAULT_DESCRIPTION,
+  openGraph: sharedOpenGraph(DEFAULT_TITLE, DEFAULT_DESCRIPTION),
+  twitter: sharedTwitter(DEFAULT_TITLE, DEFAULT_DESCRIPTION),
+};
 
 const FALLBACK_CONTENT = {
   id: "main",
