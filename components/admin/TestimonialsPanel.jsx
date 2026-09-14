@@ -97,6 +97,7 @@ function TestimonialCard({ index, testimonial, onChange, onRemove }) {
 }
 
 export default function TestimonialsPanel({ testimonials, setTestimonials, loading }) {
+  const toast = useToast();
   function update(id, patch) {
     setTestimonials((list) => list.map((t) => (t.id === id ? { ...t, ...patch } : t)));
   }
@@ -104,10 +105,16 @@ export default function TestimonialsPanel({ testimonials, setTestimonials, loadi
     setTestimonials((list) => list.filter((t) => t.id !== id));
   }
   function add() {
-    setTestimonials((list) => [
-      ...list,
-      { id: localId--, name: "", type: "image", mediaUrl: "" },
-    ]);
+    setTestimonials((list) => {
+      if (list.length >= 6) {
+        toast.error("You can add up to 6 testimonials on the homepage");
+        return list;
+      }
+      return [
+        ...list,
+        { id: localId--, name: "", type: "image", mediaUrl: "" },
+      ];
+    });
   }
 
   return (
@@ -115,7 +122,10 @@ export default function TestimonialsPanel({ testimonials, setTestimonials, loadi
       <div className="panel-head">
         <div className="label">Social Proof</div>
         <h1 className="serif">Testimonial media</h1>
-        <p>Add a YouTube video or a screenshot for each testimonial slot. Each slot needs a name and one piece of media.</p>
+        <p>
+          Add a YouTube video or a screenshot for each testimonial slot (up to 6). Each slot needs a
+          name and one piece of media.
+        </p>
       </div>
 
       {loading ? (
@@ -135,7 +145,11 @@ export default function TestimonialsPanel({ testimonials, setTestimonials, loadi
               onRemove={() => remove(t.id)}
             />
           ))}
-          <button className="add-btn" onClick={add}>+ Add testimonial slot</button>
+          {testimonials.length < 6 ? (
+            <button className="add-btn" onClick={add}>+ Add testimonial slot</button>
+          ) : (
+            <p className="hint">Maximum of 6 testimonials reached.</p>
+          )}
         </>
       )}
     </div>

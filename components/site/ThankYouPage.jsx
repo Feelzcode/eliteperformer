@@ -4,6 +4,7 @@ import { useState } from "react";
 import "./thankyou.css";
 import ScrollReveal from "./ScrollReveal";
 import { useToast } from "@/components/ui/Toast";
+import { extractYouTubeId, youtubeEmbedUrl } from "@/lib/youtube";
 
 const FAQ_VIDEOS = [
   { cap: "What if I live in a city that has Airbnb restrictions?", time: "2:46", pct: 8 },
@@ -18,7 +19,74 @@ const TESTIMONIAL_VIDEOS = [
   { time: "0:58", pct: 8 },
 ];
 
-export default function ThankYouPage({ defaultEmail = "" }) {
+function ThankYouVideo({ caption, type, url }) {
+  const ytId = type === "youtube" ? extractYouTubeId(url) : null;
+  const isVideoFile = url && /\.(mp4|webm|mov)$/i.test(url);
+
+  return (
+    <div className="video-wrap reveal">
+      <div
+        className="video-block"
+        style={{ background: !url ? undefined : undefined, position: "relative", overflow: "hidden" }}
+      >
+        {type === "youtube" && ytId ? (
+          <iframe
+            src={youtubeEmbedUrl(ytId)}
+            title={caption || "Welcome video"}
+            allowFullScreen
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
+          />
+        ) : url ? (
+          isVideoFile ? (
+            <video
+              src={url}
+              controls
+              playsInline
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          ) : (
+            <img
+              src={url}
+              alt={caption || "Welcome"}
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          )
+        ) : (
+          <>
+            <div className="sound-btn">🔊</div>
+            <div className="play-center">▶</div>
+            <div className="timebar">
+              <span>1:40</span>
+              <div className="track"><span /></div>
+              <span>⋯</span>
+            </div>
+          </>
+        )}
+        {caption ? (
+          <div
+            style={{
+              position: "absolute",
+              left: 16,
+              right: 16,
+              bottom: 16,
+              zIndex: 2,
+              fontWeight: 800,
+              fontSize: 18,
+              lineHeight: 1.25,
+              color: "#fff",
+              textShadow: "0 1px 8px rgba(0,0,0,.55)",
+              pointerEvents: "none",
+            }}
+          >
+            {caption}
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+export default function ThankYouPage({ defaultEmail = "", content = null }) {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [calOpen, setCalOpen] = useState(false);
@@ -83,17 +151,11 @@ export default function ThankYouPage({ defaultEmail = "" }) {
         <p><b>Please fill out the pre-intake form below this video...</b></p>
       </div>
 
-      <div className="video-wrap reveal">
-        <div className="video-block">
-          <div className="sound-btn">🔊</div>
-          <div className="play-center">▶</div>
-          <div className="timebar">
-            <span>1:40</span>
-            <div className="track"><span /></div>
-            <span>⋯</span>
-          </div>
-        </div>
-      </div>
+      <ThankYouVideo
+        caption={content?.thankYouVideoCaption}
+        type={content?.thankYouVideoType || "youtube"}
+        url={content?.thankYouVideoUrl}
+      />
 
       <div className="cal-wrap reveal" style={{ position: "relative" }}>
         <button className="cal-btn" onClick={() => setCalOpen((o) => !o)}>

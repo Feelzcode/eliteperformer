@@ -1,4 +1,5 @@
 import ThankYouPage from "@/components/site/ThankYouPage";
+import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -8,7 +9,20 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function Page({ searchParams }) {
+async function getThankYouContent() {
+  try {
+    return await prisma.siteContent.upsert({
+      where: { id: "main" },
+      update: {},
+      create: { id: "main" },
+    });
+  } catch {
+    return null;
+  }
+}
+
+export default async function Page({ searchParams }) {
   const email = typeof searchParams?.email === "string" ? searchParams.email : "";
-  return <ThankYouPage defaultEmail={email} />;
+  const content = await getThankYouContent();
+  return <ThankYouPage defaultEmail={email} content={content} />;
 }

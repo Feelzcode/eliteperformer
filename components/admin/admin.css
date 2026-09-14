@@ -107,6 +107,11 @@ main.admin-main input[type="email"]{
 
 .ef-link-card .ef-link-btn{display:inline-block;margin-top:4px;font-size:13px;font-weight:600;color:var(--pink-light);text-decoration:none;}
 .ef-link-card .ef-link-btn:hover{text-decoration:underline;}
+.activity-actions{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.resync-btn{font-size:12px;font-weight:600;font-family:inherit;padding:4px 10px;border-radius:6px;cursor:pointer;
+  background:transparent;border:1px solid var(--paper-line);color:var(--pink-light);}
+.resync-btn:hover:not(:disabled){border-color:var(--pink);background:var(--accent-bg-soft);}
+.resync-btn:disabled{opacity:.45;cursor:not-allowed;}
 .ef-link-card code{font-size:11.5px;color:var(--muted-dark);}
 
 .save-bar{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--paper-line);

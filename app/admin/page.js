@@ -16,7 +16,7 @@ const fetcher = (url) => fetch(url).then((r) => r.json());
 const PANELS = [
   { key: "dashboard", label: "Dashboard" },
   { key: "profile", label: "Host Profile Photo" },
-  { key: "videos", label: "Homepage Videos" },
+  { key: "videos", label: "Videos" },
   { key: "testimonials", label: "Testimonial Media" },
 ];
 

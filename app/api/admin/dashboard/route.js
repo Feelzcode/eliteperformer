@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
+import { scorePreIntakeLead } from "@/lib/engagefoyer";
 
 export const dynamic = "force-dynamic";
 
@@ -49,6 +50,7 @@ export async function GET(request) {
     contentHealth: {
       profilePhoto: Boolean(content.profilePhoto),
       video1: Boolean(content.video1Url),
+      thankYouVideo: Boolean(content.thankYouVideoUrl),
       video2: Boolean(content.video2Url),
       testimonials: testimonials.length > 0,
     },
@@ -56,6 +58,7 @@ export async function GET(request) {
       id: r.id,
       email: r.email,
       name: displayName(r.email),
+      leadTier: scorePreIntakeLead(r),
       createdAt: r.createdAt.toISOString(),
     })),
     engagefoyer: {

@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "SiteContent" ADD COLUMN IF NOT EXISTS "thankYouVideoCaption" TEXT NOT NULL DEFAULT 'WATCH THIS NEXT';
+ALTER TABLE "SiteContent" ADD COLUMN IF NOT EXISTS "thankYouVideoType" TEXT NOT NULL DEFAULT 'youtube';
+ALTER TABLE "SiteContent" ADD COLUMN IF NOT EXISTS "thankYouVideoUrl" TEXT;

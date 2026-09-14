@@ -6,7 +6,7 @@ import { extractYouTubeId, youtubeThumbnail } from "@/lib/youtube";
 import { Dots } from "@/components/ui/Loaders";
 import { useToast } from "@/components/ui/Toast";
 
-function VideoEditor({ index, caption, type, url, onChange }) {
+function VideoEditor({ title, hint, caption, type, url, onChange, successLabel }) {
   const [uploading, setUploading] = useState(false);
   const toast = useToast();
   const ytId = type === "youtube" ? extractYouTubeId(url) : null;
@@ -19,7 +19,7 @@ function VideoEditor({ index, caption, type, url, onChange }) {
     try {
       const uploaded = await uploadToCloudinary(file, { folder: "elite-performers/videos" });
       onChange({ url: uploaded });
-      toast.success(`Video ${index + 1} media uploaded`);
+      toast.success(successLabel || "Media uploaded");
     } catch {
       toast.error("Upload failed — try again");
     } finally {
@@ -29,15 +29,17 @@ function VideoEditor({ index, caption, type, url, onChange }) {
 
   return (
     <div className="video-edit-card">
-      <div className="video-edit-top">Video {index + 1}</div>
+      <div className="video-edit-top">{title}</div>
       <div className="video-edit-body">
         <div className="video-edit-fields">
+          {hint ? <p className="hint" style={{ marginTop: 0 }}>{hint}</p> : null}
+
           <label className="field-label">Caption text (overlaid on the clip)</label>
           <input
             type="text"
-            value={caption}
+            value={caption || ""}
             onChange={(e) => onChange({ caption: e.target.value })}
-            placeholder="e.g. A STRATEGY THAT WORKS"
+            placeholder="e.g. WATCH THIS NEXT"
           />
 
           <div className="media-toggle" style={{ marginTop: 14 }}>
@@ -83,7 +85,7 @@ function VideoEditor({ index, caption, type, url, onChange }) {
           <label className="field-label">Preview</label>
           <div className="video-preview-box">
             {type === "youtube" && previewSrc && <span className="sound-tag">🔇 Enable sound</span>}
-            {previewSrc && <img src={previewSrc} alt={caption} />}
+            {previewSrc && <img src={previewSrc} alt={caption || "Preview"} />}
             <div className="cap">{caption || "Caption text"}</div>
           </div>
         </div>
@@ -93,40 +95,76 @@ function VideoEditor({ index, caption, type, url, onChange }) {
 }
 
 export default function VideosPanel({ content, setContent }) {
-  function updateVideo(n, patch) {
-    setContent((c) => ({
-      ...c,
-      [`video${n}Caption`]: patch.caption ?? c[`video${n}Caption`],
-      [`video${n}Type`]: patch.type ?? c[`video${n}Type`],
-      [`video${n}Url`]: patch.url ?? c[`video${n}Url`],
-    }));
+  function patchFields(fields) {
+    setContent((c) => ({ ...c, ...fields }));
   }
 
   return (
     <div>
       <div className="panel-head">
-        <div className="label">Why This Matters Section</div>
-        <h1 className="serif">Homepage videos</h1>
+        <div className="label">Videos</div>
+        <h1 className="serif">Homepage &amp; thank-you videos</h1>
         <p>
-          The two full-width vertical video blocks under &ldquo;Here&apos;s Why This Workshop Matters&rdquo;.
-          Each needs a caption and either a YouTube link or an uploaded video/image.
+          Homepage uses one live VSL. The thank-you page uses a second video above the pre-intake
+          form (after someone registers from the homepage — like a Calvin Tran-style next step).
         </p>
       </div>
 
       <VideoEditor
-        index={0}
+        title="Homepage video"
+        hint="Shown under “Here’s Why This Workshop Matters” on the landing page."
         caption={content.video1Caption}
-        type={content.video1Type}
+        type={content.video1Type || "youtube"}
         url={content.video1Url}
-        onChange={(patch) => updateVideo(1, patch)}
+        successLabel="Homepage video uploaded"
+        onChange={(patch) =>
+          patchFields({
+            ...(patch.caption !== undefined ? { video1Caption: patch.caption } : {}),
+            ...(patch.type !== undefined ? { video1Type: patch.type } : {}),
+            ...(patch.url !== undefined ? { video1Url: patch.url } : {}),
+          })
+        }
       />
+
       <VideoEditor
-        index={1}
-        caption={content.video2Caption}
-        type={content.video2Type}
-        url={content.video2Url}
-        onChange={(patch) => updateVideo(2, patch)}
+        title="Thank-you page video"
+        hint="Plays on /thank-you above the pre-intake form. This is the second registration step after homepage signup."
+        caption={content.thankYouVideoCaption}
+        type={content.thankYouVideoType || "youtube"}
+        url={content.thankYouVideoUrl}
+        successLabel="Thank-you video uploaded"
+        onChange={(patch) =>
+          patchFields({
+            ...(patch.caption !== undefined ? { thankYouVideoCaption: patch.caption } : {}),
+            ...(patch.type !== undefined ? { thankYouVideoType: patch.type } : {}),
+            ...(patch.url !== undefined ? { thankYouVideoUrl: patch.url } : {}),
+          })
+        }
       />
+
+      <details style={{ marginTop: 24, opacity: 0.85 }}>
+        <summary style={{ cursor: "pointer", fontWeight: 600 }}>
+          Optional: homepage video 2 (hidden on site for now)
+        </summary>
+        <p className="hint" style={{ marginTop: 10 }}>
+          Kept for a future second homepage block. Not shown on the live homepage until that section
+          is re-enabled in code.
+        </p>
+        <VideoEditor
+          title="Homepage video 2 (optional / hidden)"
+          caption={content.video2Caption}
+          type={content.video2Type || "youtube"}
+          url={content.video2Url}
+          successLabel="Homepage video 2 uploaded"
+          onChange={(patch) =>
+            patchFields({
+              ...(patch.caption !== undefined ? { video2Caption: patch.caption } : {}),
+              ...(patch.type !== undefined ? { video2Type: patch.type } : {}),
+              ...(patch.url !== undefined ? { video2Url: patch.url } : {}),
+            })
+          }
+        />
+      </details>
     </div>
   );
 }

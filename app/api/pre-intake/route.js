@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import {
+  buildLeadSummary,
+  enrichEngageFoyerContact,
+  scorePreIntakeLead,
+} from "@/lib/engagefoyer";
 
 export const dynamic = "force-dynamic";
 
@@ -8,7 +13,8 @@ function normalizeEmail(email) {
 }
 
 /**
- * Thank-you page pre-intake — Elite only. Does not re-register on EngageFoyer.
+ * Thank-you page pre-intake — Elite stores answers; syncs lead tier to EngageFoyer CRM.
+ * Does not re-register for the webinar.
  */
 export async function POST(request) {
   const body = await request.json();
@@ -27,6 +33,9 @@ export async function POST(request) {
     learningGoal: learningGoal || null,
   };
 
+  const leadTier = scorePreIntakeLead(intake);
+  const summary = buildLeadSummary(intake);
+
   const existing = await prisma.registrant.findFirst({
     where: { email: normalizedEmail },
     orderBy: { createdAt: "desc" },
@@ -41,5 +50,21 @@ export async function POST(request) {
         data: { email: normalizedEmail, ...intake },
       });
 
-  return NextResponse.json({ ok: true, id: registrant.id });
+  const sync = await enrichEngageFoyerContact({
+    email: normalizedEmail,
+    leadTier,
+    summary,
+    preIntakeComplete: true,
+  });
+
+  if (!sync.ok && !sync.skipped) {
+    console.warn("[pre-intake] EngageFoyer enrich failed:", sync.error || sync.status);
+  }
+
+  return NextResponse.json({
+    ok: true,
+    id: registrant.id,
+    leadTier,
+    synced: Boolean(sync.ok),
+  });
 }

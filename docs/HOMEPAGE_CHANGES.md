@@ -71,18 +71,22 @@ Both the JSX block and the `SECRETS` data array are commented in `HomePage.jsx`.
 
 ---
 
-## How to re-enable
+## Thank-you page video (Sep 2026)
 
-1. Open `components/site/HomePage.jsx`.
-2. Search for `Second video block` or `4 Secrets`.
-3. Remove the surrounding `{/* … */}` (and restore the `SECRETS` const for secrets).
-4. Refresh the homepage.
+- Admin → **Videos** now has **Homepage video** + **Thank-you page video** (YouTube or Cloudinary upload).
+- Homepage video 2 stays optional/hidden under a disclosure.
+- `/thank-you` loads `thankYouVideo*` from `SiteContent` and plays it above the pre-intake form.
+- Funnel intent: homepage register → thank-you VSL + second form (pre-intake), Calvin Tran-style.
 
----
+Migration: `prisma/migrations/20260912120000_thank_you_video`.
 
-## Still visible (unchanged in this pass)
+## EngageFoyer CRM sync (Sep 2026)
 
-- Why-this-workshop banner + first video + CTA  
-- Testimonials / proof  
-- FAQ  
-- Closing CTA / sticky CTA / registration modal  
+After pre-intake submit, Elite scores the lead (`hot` / `warm` / `nurture`) and calls EngageFoyer:
+
+`POST {ENGAGEFOYER_APP_URL}/api/contacts/enrich`  
+Authorization: `Bearer {ENGAGEFOYER_API_KEY}`
+
+EngageFoyer stamps `Subscriber.leadTier`, `leadSummary`, `preIntakeAt` (shown as HOT/WARM badges in Contacts). Full form answers stay in Elite.
+
+If auto-sync fails, Elite admin → Dashboard → Recent pre-intake → **Sync** retries via `POST /api/admin/pre-intake/resync`.

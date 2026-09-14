@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Singleton row holding editable site content (profile photo + homepage videos).
+// Singleton row holding editable site content (profile photo + homepage / thank-you videos).
 // We only ever have one row (id = "main"), updated in place by the admin panel.
 model SiteContent {
   id            String   @id @default("main")
@@ -21,6 +21,10 @@ model SiteContent {
   video2Caption String   @default("AND STAY CONSISTENTLY BOOKED")
   video2Type    String   @default("youtube")
   video2Url     String?
+  /// Thank-you page VSL (post-registration / pre-intake step).
+  thankYouVideoCaption String  @default("WATCH THIS NEXT")
+  thankYouVideoType    String  @default("youtube") // "youtube" | "upload"
+  thankYouVideoUrl     String?
   updatedAt     DateTime @updatedAt
 }
 

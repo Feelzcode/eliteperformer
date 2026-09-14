@@ -27,10 +27,23 @@ export async function PUT(request) {
   const body = await request.json();
   const { content, testimonials } = body;
 
+  const siteFields = {
+    profilePhoto: content?.profilePhoto ?? null,
+    video1Caption: content?.video1Caption,
+    video1Type: content?.video1Type,
+    video1Url: content?.video1Url ?? null,
+    video2Caption: content?.video2Caption,
+    video2Type: content?.video2Type,
+    video2Url: content?.video2Url ?? null,
+    thankYouVideoCaption: content?.thankYouVideoCaption,
+    thankYouVideoType: content?.thankYouVideoType,
+    thankYouVideoUrl: content?.thankYouVideoUrl ?? null,
+  };
+
   const updated = await prisma.siteContent.upsert({
     where: { id: "main" },
-    update: content,
-    create: { id: "main", ...content },
+    update: siteFields,
+    create: { id: "main", ...siteFields },
   });
 
   // Replace the whole testimonial set in one transaction — simplest
