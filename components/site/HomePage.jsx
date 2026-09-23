@@ -10,6 +10,42 @@ import { useToast } from "@/components/ui/Toast";
 
 const DEFAULT_COUNTRY_CODE = countryDialOptionValue(COUNTRY_DIAL_CODES[0]);
 
+function StepIcon({ children }) {
+  return (
+    <div className="step-check" aria-hidden>
+      {children}
+    </div>
+  );
+}
+
+function IconMapPin() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </svg>
+  );
+}
+
+function IconCreditCard() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="5" width="20" height="14" rx="2" />
+      <path d="M2 10h20" />
+      <path d="M6 15h4" />
+    </svg>
+  );
+}
+
+function IconGear() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="3" />
+      <path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" />
+    </svg>
+  );
+}
+
 function parsePhone(countryCodeLabel, localNumber) {
   const codeMatch = countryCodeLabel.match(/\+(\d+)/);
   const digits = localNumber.replace(/\D/g, "");
@@ -80,25 +116,6 @@ function TestimonialCard({ name, type, mediaUrl }) {
   );
 }
 
-const FAQ_ITEMS = [
-  {
-    q: "Do I need real estate experience?",
-    a: "No. Most attendees have never owned or managed a rental before. The workshop starts from zero and focuses on the arbitrage model specifically, not traditional landlording.",
-  },
-  {
-    q: "Is rental arbitrage actually legal?",
-    a: "Yes, when it's structured correctly with the landlord's written permission to sublet — which is exactly what we cover in step two of the playbook. We'll also flag the situations where it isn't a fit.",
-  },
-  {
-    q: "How much money do I actually need to start?",
-    a: "The model is built around using none of your own capital for the property itself. You'll still want a small operating buffer for furnishing and setup — we cover realistic numbers live.",
-  },
-  {
-    q: "What if I can't attend live?",
-    a: "Register anyway — you'll get the replay link automatically, though live attendees get first access to Q&A and any live-only bonuses.",
-  },
-];
-
 /* Reserved for the commented-out "4 Secrets" homepage section — uncomment with that block.
 const SECRETS = [
   {
@@ -148,7 +165,6 @@ export default function HomePage({ content, testimonials }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitLabel, setSubmitLabel] = useState("Claim Your Spot");
-  const [openFaq, setOpenFaq] = useState(0);
   const toast = useToast();
 
   function openModal() {
@@ -218,9 +234,6 @@ export default function HomePage({ content, testimonials }) {
           <em>Learn</em> how to <em>build a $10K–$20K/month Airbnb business</em> without owning a
           single property or investing your personal money.
         </h1>
-        <p className="hero-sub reveal">
-          Using NONE of your own money to start!
-        </p>
         <CtaButton onClick={openModal} big>
           <span className="l1">Save My Free Seat</span>
           <span className="l2">Wednesday, July 8th · 7:00 PM EST</span>
@@ -256,31 +269,35 @@ export default function HomePage({ content, testimonials }) {
       <div className="section section-dark">
         <div className="wrap">
           <div className="section-head reveal">
-            <div className="label">The Playbook</div>
             <h2 className="serif">
-              The Exact Playbook To Control Cash-Flowing Real Estate Without Owning A Single
-              Property
+              The Step-by-Step Strategy to Build Real Estate Cash Flow Without Buying Property
             </h2>
             <p>(Here&apos;s A Preview Of What You&apos;ll Learn For FREE)</p>
           </div>
           <div className="steps">
             <div className="step reveal">
-              <div className="step-check" aria-hidden>
-                ✓
-              </div>
-              <h4>How to find high profit deals in your area</h4>
+              <StepIcon>
+                <IconMapPin />
+              </StepIcon>
+              <h4>How to Locate High-Cash-Flow Deals in Your Area</h4>
             </div>
             <div className="step reveal">
-              <div className="step-check" aria-hidden>
-                ✓
-              </div>
-              <h4>Secure funding at 0% interest to control these units using none of your own money</h4>
+              <StepIcon>
+                <IconCreditCard />
+              </StepIcon>
+              <h4>
+                Learn how to secure 0% interest business credit cards to fund these deals without
+                using your own money.
+              </h4>
             </div>
             <div className="step reveal">
-              <div className="step-check" aria-hidden>
-                ✓
-              </div>
-              <h4>Automate your property and achieve passive rental income every month</h4>
+              <StepIcon>
+                <IconGear />
+              </StepIcon>
+              <h4>
+                Streamline your Airbnb business using my recommended AI tools to create consistent
+                monthly cash flow.
+              </h4>
             </div>
           </div>
         </div>
@@ -322,7 +339,6 @@ export default function HomePage({ content, testimonials }) {
       <div className="section">
         <div className="section-head section-head--center reveal">
           <div className="label">Proof</div>
-          <h2 className="serif">Results from people who attended</h2>
         </div>
         <div className="testimonial-grid reveal">
           {testimonials.map((t) => (
@@ -369,25 +385,6 @@ export default function HomePage({ content, testimonials }) {
         </div>
       </div>
       */}
-
-      <div className="section section-dark">
-        <div className="section-head section-head--center reveal">
-          <div className="label">Before You Ask</div>
-          <h2 className="serif">Common questions</h2>
-        </div>
-        <div className="faq reveal">
-          {FAQ_ITEMS.map((item, i) => (
-            <div className={`faq-item ${openFaq === i ? "open" : ""}`} key={item.q}>
-              <button className="faq-q" onClick={() => setOpenFaq(openFaq === i ? -1 : i)}>
-                {item.q} <span className="plus">+</span>
-              </button>
-              <div className="faq-a">
-                <p>{item.a}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       <div className="closing">
         <h2 className="serif reveal">Will you be joining them?</h2>
