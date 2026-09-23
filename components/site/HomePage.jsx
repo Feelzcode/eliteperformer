@@ -161,11 +161,18 @@ function CtaButton({ onClick, big, children }) {
   );
 }
 
-export default function HomePage({ content, testimonials }) {
+export default function HomePage({ content, testimonials, schedule }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitLabel, setSubmitLabel] = useState("Claim Your Spot");
   const toast = useToast();
+
+  const eyebrow = schedule?.eyebrow || "Free Live Workshop";
+  const heroWhen = schedule?.labelLong || "Save your free seat";
+  const midWhen =
+    schedule?.mode === "register" && schedule?.labelShort
+      ? `Join Ekene · ${schedule.labelShort}`
+      : schedule?.labelLong || "Join Ekene live";
 
   function openModal() {
     if (submitting) return;
@@ -229,18 +236,15 @@ export default function HomePage({ content, testimonials }) {
       <Ticker />
 
       <div className="hero">
-        <div className="eyebrow">Free Live Workshop · Wed, July 8 · 7PM EST</div>
+        <div className="eyebrow">{eyebrow}</div>
         <h1 className="serif reveal">
           <em>Learn</em> how to <em>build a $10K–$20K/month Airbnb business</em> without owning a
           single property or investing your personal money.
         </h1>
         <CtaButton onClick={openModal} big>
           <span className="l1">Save My Free Seat</span>
-          <span className="l2">Wednesday, July 8th · 7:00 PM EST</span>
+          <span className="l2">{heroWhen}</span>
         </CtaButton>
-        <p className="social-line reveal">
-          Limited to 300 live seats — <b>214</b> already reserved
-        </p>
       </div>
 
       <div className="section">
@@ -317,7 +321,7 @@ export default function HomePage({ content, testimonials }) {
       <div className="cta-mid reveal">
         <CtaButton onClick={openModal}>
           <span className="l1">Yes! Claim My Free Seat</span>
-          <span className="l2">Join Ekene This Wednesday At 7 PM EST</span>
+          <span className="l2">{midWhen}</span>
         </CtaButton>
       </div>
 
@@ -331,7 +335,7 @@ export default function HomePage({ content, testimonials }) {
       <div className="cta-mid reveal">
         <CtaButton onClick={openModal}>
           <span className="l1">Yes! Claim My Free Seat</span>
-          <span className="l2">Join Ekene This Wednesday At 7 PM EST</span>
+          <span className="l2">{midWhen}</span>
         </CtaButton>
       </div>
       */}
@@ -352,7 +356,7 @@ export default function HomePage({ content, testimonials }) {
         <div className="cta-mid reveal">
           <CtaButton onClick={openModal}>
             <span className="l1">Yes! Claim My Free Seat</span>
-            <span className="l2">Join Ekene This Wednesday At 7 PM EST</span>
+            <span className="l2">{midWhen}</span>
           </CtaButton>
         </div>
       </div>
@@ -380,19 +384,11 @@ export default function HomePage({ content, testimonials }) {
         <div className="cta-mid reveal">
           <CtaButton onClick={openModal}>
             <span className="l1">Yes! Claim My Free Seat</span>
-            <span className="l2">Join Ekene This Wednesday At 7 PM EST</span>
+            <span className="l2">{midWhen}</span>
           </CtaButton>
         </div>
       </div>
       */}
-
-      <div className="closing">
-        <h2 className="serif reveal">Will you be joining them?</h2>
-        <CtaButton onClick={openModal} big>
-          <span className="l1">Save My Free Seat</span>
-          <span className="l2">Wednesday, July 8th · 7:00 PM EST</span>
-        </CtaButton>
-      </div>
 
       <div className="footer-strip" style={{ borderTop: "1px solid var(--paper-line)" }}>
         <p style={{ maxWidth: 640, margin: "0 auto 14px", fontSize: 11, lineHeight: 1.6, color: "var(--muted)" }}>

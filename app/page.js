@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import HomePage from "@/components/site/HomePage";
+import { fetchOpenEventSchedule } from "@/lib/open-event";
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_TITLE,
@@ -43,6 +44,9 @@ async function getContent() {
 }
 
 export default async function Page() {
-  const { content, testimonials } = await getContent();
-  return <HomePage content={content} testimonials={testimonials} />;
+  const [{ content, testimonials }, schedule] = await Promise.all([
+    getContent(),
+    fetchOpenEventSchedule(),
+  ]);
+  return <HomePage content={content} testimonials={testimonials} schedule={schedule} />;
 }
