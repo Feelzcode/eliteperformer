@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./home.css";
 import ScrollReveal from "./ScrollReveal";
 import Ticker from "./Ticker";
@@ -90,26 +90,36 @@ function VideoBlock({ caption, type, url, fallbackBg }) {
   );
 }
 
-function TestimonialCard({ name, type, mediaUrl }) {
+function TestimonialCard({ name, type, mediaUrl, onZoom }) {
   const ytId = type === "youtube" ? extractYouTubeId(mediaUrl) : null;
   const imgSrc = type === "youtube" ? null : mediaUrl;
 
   return (
     <div className="testimonial-card">
-      <div className="media-slot">
-        {ytId ? (
-          <iframe
-            src={youtubeEmbedUrl(ytId)}
-            title={name}
-            allowFullScreen
-            style={{ width: "100%", height: "100%", border: 0 }}
-          />
-        ) : imgSrc ? (
-          <img src={imgSrc} alt={name} />
-        ) : (
-          <span className="play-icon"><span>▶</span></span>
-        )}
-      </div>
+      {imgSrc ? (
+        <button
+          type="button"
+          className="media-slot media-slot--shot"
+          onClick={() => onZoom({ src: imgSrc, alt: name })}
+          aria-label={`View ${name}'s testimonial full size`}
+        >
+          <img src={imgSrc} alt={name} loading="lazy" />
+          <span className="shot-hint">Tap to enlarge</span>
+        </button>
+      ) : (
+        <div className="media-slot">
+          {ytId ? (
+            <iframe
+              src={youtubeEmbedUrl(ytId)}
+              title={name}
+              allowFullScreen
+              style={{ width: "100%", height: "100%", border: 0 }}
+            />
+          ) : (
+            <span className="play-icon"><span>▶</span></span>
+          )}
+        </div>
+      )}
       <div className="stars">★★★★★</div>
       <div className="name">{name}</div>
     </div>
@@ -165,7 +175,20 @@ export default function HomePage({ content, testimonials, schedule }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitLabel, setSubmitLabel] = useState("Claim Your Spot");
+  const [zoomed, setZoomed] = useState(null);
   const toast = useToast();
+
+  useEffect(() => {
+    if (!zoomed) return;
+    const onKey = (e) => e.key === "Escape" && setZoomed(null);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [zoomed]);
 
   const eyebrow = schedule?.eyebrow || "Free Live Workshop";
   const heroWhen = schedule?.labelLong || "Save your free seat";
@@ -308,9 +331,7 @@ export default function HomePage({ content, testimonials, schedule }) {
       </div>
 
       <div className="why-banner reveal">
-        <h2 className="serif">Here&apos;s Why This Workshop Matters In 2026</h2>
-        <div className="sound-cta">🔊 Click Turn Sound On</div>
-      </div>
+        <h2 className="serif">Here&apos;s what you can expect when working with me directly.</h2>      </div>
 
       <VideoBlock
         caption={content.video1Caption}
@@ -346,7 +367,7 @@ export default function HomePage({ content, testimonials, schedule }) {
         </div>
         <div className="testimonial-grid reveal">
           {testimonials.map((t) => (
-            <TestimonialCard key={t.id} {...t} />
+            <TestimonialCard key={t.id} {...t} onZoom={setZoomed} />
           ))}
         </div>
         <p className="disclaimer">
@@ -444,6 +465,21 @@ export default function HomePage({ content, testimonials, schedule }) {
           </div>
         </div>
       </div>
+
+      {zoomed && (
+        <div
+          className="shot-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={zoomed.alt}
+          onClick={() => setZoomed(null)}
+        >
+          <button type="button" className="shot-lightbox-close" aria-label="Close" onClick={() => setZoomed(null)}>
+            ×
+          </button>
+          <img src={zoomed.src} alt={zoomed.alt} onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
     </>
   );
 }
