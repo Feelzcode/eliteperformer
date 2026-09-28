@@ -64,6 +64,10 @@
   .testi-video .sound-btn{position:absolute;top:12px;right:12px;width:30px;height:30px;font-size:var(--text-sm);}
   .faq-video .cap{padding:12px 14px 6px;font-size:13.5px;}
   .faq-video .timebar{padding:0 14px 10px;font-size:11px;}
+  .faq-grid{display:grid;grid-template-columns:1fr;gap:18px;text-align:left;}
+  .faq-item{margin:0;}
+  .faq-media{position:relative;aspect-ratio:16/9;border-radius:var(--radius-lg);overflow:hidden;background:#000;}
+  .faq-cap{margin-top:8px;font-size:13.5px;font-weight:600;line-height:1.35;}
   .testi-video .timebar{padding:var(--space-2) var(--space-3);font-size:11px;}
 
   .testi-section{max-width:var(--max-form);margin:36px auto 0;padding:0 var(--space-6);text-align:center;}
@@ -82,6 +86,8 @@
     .checklist h2.serif{font-size:27px;}
     .faq-section{max-width:560px;}
     .faq-section h2.serif{font-size:25px;}
+    .faq-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .faq-grid.single{grid-template-columns:1fr;}
     .testi-section{max-width:560px;}
     .testi-section h2.serif{font-size:24px;}
   }

@@ -25,6 +25,8 @@ model SiteContent {
   thankYouVideoCaption String  @default("WATCH THIS NEXT")
   thankYouVideoType    String  @default("youtube") // "youtube" | "upload"
   thankYouVideoUrl     String?
+  /// Thank-you page FAQ videos: [{ id, caption, type: "youtube" | "upload", url }].
+  thankYouFaqVideos    Json    @default("[]")
   updatedAt     DateTime @updatedAt
 }
 

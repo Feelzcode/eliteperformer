@@ -6,11 +6,25 @@ import { extractYouTubeId, youtubeThumbnail } from "@/lib/youtube";
 import { Dots } from "@/components/ui/Loaders";
 import { useToast } from "@/components/ui/Toast";
 
-function VideoEditor({ title, hint, caption, type, url, onChange, successLabel }) {
+const MAX_FAQ_VIDEOS = 12;
+
+function VideoEditor({
+  title,
+  hint,
+  caption,
+  type,
+  url,
+  onChange,
+  onRemove,
+  successLabel,
+  captionLabel = "Caption text (overlaid on the clip)",
+  captionPlaceholder = "e.g. WATCH THIS NEXT",
+}) {
   const [uploading, setUploading] = useState(false);
   const toast = useToast();
   const ytId = type === "youtube" ? extractYouTubeId(url) : null;
   const previewSrc = type === "youtube" ? (ytId ? youtubeThumbnail(ytId) : "") : url;
+  const previewIsVideo = type === "upload" && /\.(mp4|webm|mov)$/i.test(url || "");
 
   async function handleFile(e) {
     const file = e.target.files[0];
@@ -29,17 +43,20 @@ function VideoEditor({ title, hint, caption, type, url, onChange, successLabel }
 
   return (
     <div className="video-edit-card">
-      <div className="video-edit-top">{title}</div>
+      <div className="video-edit-top" style={onRemove ? { display: "flex", justifyContent: "space-between", alignItems: "center" } : undefined}>
+        <span>{title}</span>
+        {onRemove ? <button type="button" className="remove-btn" onClick={onRemove}>Remove</button> : null}
+      </div>
       <div className="video-edit-body">
         <div className="video-edit-fields">
           {hint ? <p className="hint" style={{ marginTop: 0 }}>{hint}</p> : null}
 
-          <label className="field-label">Caption text (overlaid on the clip)</label>
+          <label className="field-label">{captionLabel}</label>
           <input
             type="text"
             value={caption || ""}
             onChange={(e) => onChange({ caption: e.target.value })}
-            placeholder="e.g. WATCH THIS NEXT"
+            placeholder={captionPlaceholder}
           />
 
           <div className="media-toggle" style={{ marginTop: 14 }}>
@@ -85,7 +102,11 @@ function VideoEditor({ title, hint, caption, type, url, onChange, successLabel }
           <label className="field-label">Preview</label>
           <div className="video-preview-box">
             {type === "youtube" && previewSrc && <span className="sound-tag">🔇 Enable sound</span>}
-            {previewSrc && <img src={previewSrc} alt={caption || "Preview"} />}
+            {previewSrc && previewIsVideo ? (
+              <video src={previewSrc} muted playsInline preload="metadata" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            ) : previewSrc ? (
+              <img src={previewSrc} alt={caption || "Preview"} />
+            ) : null}
             <div className="cap">{caption || "Caption text"}</div>
           </div>
         </div>
@@ -95,8 +116,27 @@ function VideoEditor({ title, hint, caption, type, url, onChange, successLabel }
 }
 
 export default function VideosPanel({ content, setContent }) {
+  const toast = useToast();
+  const faqVideos = Array.isArray(content.thankYouFaqVideos) ? content.thankYouFaqVideos : [];
+
   function patchFields(fields) {
     setContent((c) => ({ ...c, ...fields }));
+  }
+
+  function setFaqVideos(update) {
+    setContent((c) => {
+      const list = Array.isArray(c.thankYouFaqVideos) ? c.thankYouFaqVideos : [];
+      return { ...c, thankYouFaqVideos: update(list) };
+    });
+  }
+
+  function addFaqVideo() {
+    if (faqVideos.length >= MAX_FAQ_VIDEOS) {
+      toast.error(`You can add up to ${MAX_FAQ_VIDEOS} FAQ videos`);
+      return;
+    }
+    const id = `faq-${Date.now().toString(36)}`;
+    setFaqVideos((list) => [...list, { id, caption: "", type: "upload", url: "" }]);
   }
 
   return (
@@ -141,6 +181,37 @@ export default function VideosPanel({ content, setContent }) {
           })
         }
       />
+
+      <div className="panel-head" style={{ marginTop: 32 }}>
+        <div className="label">Thank-you page</div>
+        <h2 className="serif">FAQ videos</h2>
+        <p>
+          Shown under “Have Questions? Watch The Videos Below…”. Each video you add becomes another
+          tile on the page. The section is hidden until at least one video has a file or link.
+        </p>
+      </div>
+
+      {faqVideos.map((v, i) => (
+        <VideoEditor
+          key={v.id}
+          title={`FAQ video ${i + 1}`}
+          caption={v.caption}
+          type={v.type || "upload"}
+          url={v.url}
+          captionLabel="Question this video answers"
+          captionPlaceholder="e.g. What if I live in a city that has Airbnb restrictions?"
+          successLabel="FAQ video uploaded"
+          onChange={(patch) =>
+            setFaqVideos((list) => list.map((x) => (x.id === v.id ? { ...x, ...patch } : x)))
+          }
+          onRemove={() => setFaqVideos((list) => list.filter((x) => x.id !== v.id))}
+        />
+      ))}
+      {faqVideos.length < MAX_FAQ_VIDEOS ? (
+        <button type="button" className="add-btn" onClick={addFaqVideo}>+ Add FAQ video</button>
+      ) : (
+        <p className="hint">Maximum of {MAX_FAQ_VIDEOS} FAQ videos reached.</p>
+      )}
 
       <details style={{ marginTop: 24, opacity: 0.85 }}>
         <summary style={{ cursor: "pointer", fontWeight: 600 }}>

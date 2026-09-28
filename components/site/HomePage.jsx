@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import "./home.css";
 import ScrollReveal from "./ScrollReveal";
-import Ticker from "./Ticker";
+// import Ticker from "./Ticker";
 import { extractYouTubeId, youtubeEmbedUrl } from "@/lib/youtube";
 import { COUNTRY_DIAL_CODES, countryDialOptionValue } from "@/lib/country-dial-codes";
 import { useToast } from "@/components/ui/Toast";
@@ -120,7 +120,6 @@ function TestimonialCard({ name, type, mediaUrl, onZoom }) {
           )}
         </div>
       )}
-      <div className="stars">★★★★★</div>
       <div className="name">{name}</div>
     </div>
   );
@@ -190,7 +189,7 @@ export default function HomePage({ content, testimonials, schedule }) {
     };
   }, [zoomed]);
 
-  const eyebrow = schedule?.eyebrow || "Free Live Workshop";
+  const eyebrow = schedule?.eyebrow || "Next Live Workshop";
   const heroWhen = schedule?.labelLong || "Save your free seat";
   const midWhen =
     schedule?.mode === "register" && schedule?.labelShort
@@ -256,7 +255,8 @@ export default function HomePage({ content, testimonials, schedule }) {
         />
       </div>
 
-      <Ticker />
+      {/* TODO(later): countdown is hardcoded to 8 Jul 2026 in Ticker.jsx — re-enable once it reads the EngageFoyer open-event date. */}
+      {/* <Ticker /> */}
 
       <div className="hero">
         <div className="eyebrow">{eyebrow}</div>
@@ -363,12 +363,15 @@ export default function HomePage({ content, testimonials, schedule }) {
 
       <div className="section">
         <div className="section-head section-head--center reveal">
-          <div className="label">Proof</div>
+          <div className="label">Proof by Students</div>
         </div>
         <div className="testimonial-grid reveal">
           {testimonials.map((t) => (
             <TestimonialCard key={t.id} {...t} onZoom={setZoomed} />
           ))}
+        </div>
+        <div className="section-head section-head--center reveal" style={{ marginTop: 40 }}>
+          <h2 className="serif">Will you be Joining?</h2>
         </div>
         <p className="disclaimer">
           <b>Disclaimer:</b> Individual results vary. Results depend on effort, commitment, market

@@ -6,18 +6,56 @@ import ScrollReveal from "./ScrollReveal";
 import { useToast } from "@/components/ui/Toast";
 import { extractYouTubeId, youtubeEmbedUrl } from "@/lib/youtube";
 
-const FAQ_VIDEOS = [
-  { cap: "What if I live in a city that has Airbnb restrictions?", time: "2:46", pct: 8 },
-  { cap: "How long will it take me to get my first Airbnb after joining?", time: "2:59", pct: 5 },
-  { cap: "What happens if the landlord says no to subletting?", time: "2:14", pct: 5 },
-  { cap: "What if I don't think the landlord will say \"Yes\"?", time: "2:39", pct: 5 },
-];
+// TODO(later): testimonial videos on the thank-you page are static placeholders.
+// Re-enable with the section below once real clips are managed from admin.
+// const TESTIMONIAL_VIDEOS = [
+//   { time: "0:37", pct: 10 },
+//   { time: "1:45", pct: 6 },
+//   { time: "0:58", pct: 8 },
+// ];
 
-const TESTIMONIAL_VIDEOS = [
-  { time: "0:37", pct: 10 },
-  { time: "1:45", pct: 6 },
-  { time: "0:58", pct: 8 },
-];
+function FaqVideo({ caption, type, url }) {
+  const ytId = type === "youtube" ? extractYouTubeId(url) : null;
+  const isVideoFile = /\.(mp4|webm|mov)$/i.test(url || "");
+
+  let media = null;
+  if (ytId) {
+    media = (
+      <iframe
+        src={youtubeEmbedUrl(ytId)}
+        title={caption || "FAQ video"}
+        allowFullScreen
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
+      />
+    );
+  } else if (type === "upload" && isVideoFile) {
+    media = (
+      <video
+        src={url}
+        controls
+        playsInline
+        preload="metadata"
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", background: "#000" }}
+      />
+    );
+  } else if (type === "upload") {
+    media = (
+      <img
+        src={url}
+        alt={caption || "FAQ"}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+      />
+    );
+  }
+  if (!media) return null;
+
+  return (
+    <figure className="faq-item reveal">
+      <div className="faq-media">{media}</div>
+      {caption ? <figcaption className="faq-cap">{caption}</figcaption> : null}
+    </figure>
+  );
+}
 
 function ThankYouVideo({ caption, type, url }) {
   const ytId = type === "youtube" ? extractYouTubeId(url) : null;
@@ -89,8 +127,12 @@ function ThankYouVideo({ caption, type, url }) {
 export default function ThankYouPage({ defaultEmail = "", content = null }) {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [calOpen, setCalOpen] = useState(false);
+  // TODO(later): Add to Calendar is parked — see the commented block under the video.
+  // const [calOpen, setCalOpen] = useState(false);
   const toast = useToast();
+  const faqVideos = (Array.isArray(content?.thankYouFaqVideos) ? content.thankYouFaqVideos : []).filter(
+    (v) => v?.url,
+  );
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -119,20 +161,23 @@ export default function ThankYouPage({ defaultEmail = "", content = null }) {
     }
   }
 
-  function downloadIcs() {
-    const ics = [
-      "BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT",
-      "DTSTART:20260708T230000Z", "DTEND:20260709T003000Z",
-      "SUMMARY:Elite Performers Circle \u2014 Free Live Workshop",
-      "DESCRIPTION:Join Ekene for the free live Airbnb rental arbitrage workshop.",
-      "END:VEVENT", "END:VCALENDAR",
-    ].join("\r\n");
-    const blob = new Blob([ics], { type: "text/calendar" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "elite-performers-workshop.ics";
-    link.click();
-  }
+  // TODO(later): calendar dates are hardcoded to 8 Jul 2026. When reworking, take the
+  // schedule from EngageFoyer (lib/open-event.js already powers the homepage CTA), put the
+  // registrant's Zoom join link in the event, and serve the .ics from a route for iOS Safari.
+  // function downloadIcs() {
+  //   const ics = [
+  //     "BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT",
+  //     "DTSTART:20260708T230000Z", "DTEND:20260709T003000Z",
+  //     "SUMMARY:Elite Performers Circle \u2014 Free Live Workshop",
+  //     "DESCRIPTION:Join Ekene for the free live Airbnb rental arbitrage workshop.",
+  //     "END:VEVENT", "END:VCALENDAR",
+  //   ].join("\r\n");
+  //   const blob = new Blob([ics], { type: "text/calendar" });
+  //   const link = document.createElement("a");
+  //   link.href = URL.createObjectURL(blob);
+  //   link.download = "elite-performers-workshop.ics";
+  //   link.click();
+  // }
 
   return (
     <div className="page">
@@ -157,6 +202,7 @@ export default function ThankYouPage({ defaultEmail = "", content = null }) {
         url={content?.thankYouVideoUrl}
       />
 
+      {/* TODO(later): Add to Calendar — parked until dates come from EngageFoyer (see downloadIcs note).
       <div className="cal-wrap reveal" style={{ position: "relative" }}>
         <button className="cal-btn" onClick={() => setCalOpen((o) => !o)}>
           📅 Add to Calendar <span style={{ fontSize: 11 }}>▾</span>
@@ -185,6 +231,7 @@ export default function ThankYouPage({ defaultEmail = "", content = null }) {
           </div>
         )}
       </div>
+      */}
 
       <div className="form-card reveal">
         <div className="form-inner">
@@ -197,7 +244,7 @@ export default function ThankYouPage({ defaultEmail = "", content = null }) {
             </div>
           ) : (
             <>
-              <h3 className="serif">High Performance Hosts Pre-Webinar Intake</h3>
+              <h3 className="serif">Elite Performers Circle Pre-Webinar Intake</h3>
               <p className="intro">
                 Thank you for registering! In order for me to give you the MOST value and free
                 resources, please fill out this form!
@@ -306,22 +353,18 @@ export default function ThankYouPage({ defaultEmail = "", content = null }) {
         </div>
       </div>
 
-      <div className="faq-section">
-        <h2 className="serif reveal">Have Questions? Watch The Videos Below To Get The Answers You Need Directly From Ekene</h2>
-
-        {FAQ_VIDEOS.map((v) => (
-          <div className="faq-video" key={v.cap}>
-            <div className="play-center">▶</div>
-            <div className="cap">{v.cap}</div>
-            <div className="timebar">
-              <span>{v.time}</span>
-              <div className="track"><span style={{ width: `${v.pct}%` }} /></div>
-              <span>⋯</span>
-            </div>
+      {faqVideos.length > 0 && (
+        <div className="faq-section">
+          <h2 className="serif reveal">Have Questions? Watch The Videos Below To Get The Answers You Need Directly From Ekene</h2>
+          <div className={`faq-grid${faqVideos.length === 1 ? " single" : ""}`}>
+            {faqVideos.map((v) => (
+              <FaqVideo key={v.id || v.url} caption={v.caption} type={v.type} url={v.url} />
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
 
+      {/* TODO(later): testimonial videos — placeholders until real clips are uploadable from admin.
       <div className="testi-section">
         <h2 className="serif reveal">This is what others are saying about our community...</h2>
 
@@ -337,6 +380,7 @@ export default function ThankYouPage({ defaultEmail = "", content = null }) {
           </div>
         ))}
       </div>
+      */}
 
       <div className="footer-strip">© 2026 Ekene. All rights reserved.</div>
     </div>

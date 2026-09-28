@@ -4,6 +4,21 @@ import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
+const MAX_FAQ_VIDEOS = 12;
+
+function cleanFaqVideos(list) {
+  if (!Array.isArray(list)) return [];
+  return list
+    .map((v) => ({
+      id: String(v?.id ?? ""),
+      caption: String(v?.caption ?? "").trim(),
+      type: v?.type === "upload" ? "upload" : "youtube",
+      url: String(v?.url ?? "").trim(),
+    }))
+    .filter((v) => v.url)
+    .slice(0, MAX_FAQ_VIDEOS);
+}
+
 // GET is public — the landing page fetches this at request time (or build
 // time with revalidation) to render the profile photo, homepage videos, and
 // testimonials.
@@ -38,6 +53,7 @@ export async function PUT(request) {
     thankYouVideoCaption: content?.thankYouVideoCaption,
     thankYouVideoType: content?.thankYouVideoType,
     thankYouVideoUrl: content?.thankYouVideoUrl ?? null,
+    thankYouFaqVideos: cleanFaqVideos(content?.thankYouFaqVideos),
   };
 
   const updated = await prisma.siteContent.upsert({
