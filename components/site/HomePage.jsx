@@ -329,7 +329,8 @@ export default function HomePage({ content, testimonials, schedule }) {
       </div>
 
       <div className="why-banner reveal">
-        <h2 className="serif">Here&apos;s what you can expect when working with me directly.</h2>      </div>
+        <h2 className="serif">Frequently Asked Questions</h2>
+      </div>
 
       <VideoBlock
         caption={content.video1Caption}
