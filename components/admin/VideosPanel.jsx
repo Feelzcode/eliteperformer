@@ -101,7 +101,6 @@ function VideoEditor({
         <div className="video-edit-preview">
           <label className="field-label">Preview</label>
           <div className="video-preview-box">
-            {type === "youtube" && previewSrc && <span className="sound-tag">🔇 Enable sound</span>}
             {previewSrc && previewIsVideo ? (
               <video src={previewSrc} muted playsInline preload="metadata" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             ) : previewSrc ? (

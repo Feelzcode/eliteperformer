@@ -84,7 +84,6 @@ function VideoBlock({ caption, type, url, fallbackBg }) {
           />
         )
       ) : null}
-      <div className="enable-sound">🔇 Enable sound</div>
       <div className="video-caption">{caption}</div>
     </div>
   );
@@ -362,7 +361,7 @@ export default function HomePage({ content, testimonials, schedule }) {
 
       <div className="section">
         <div className="section-head section-head--center reveal">
-          <div className="label">Proof by Students</div>
+          <div className="label">Proof</div>
         </div>
         <div className="testimonial-grid reveal">
           {testimonials.map((t) => (
