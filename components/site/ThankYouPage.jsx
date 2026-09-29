@@ -320,18 +320,14 @@ export default function ThankYouPage({ defaultEmail = "", content = null }) {
         <div className="check-item reveal">
           <div className="check-num mono">01</div>
           <div className="check-copy">
-            <div className="num-title">Zoom Just Emailed You a Join Link 📩</div>
+            <div className="num-title">Ekene Just Emailed You a Join Link 📩</div>
             <p>Check your inbox now and click &quot;Add to Calendar&quot; so you&apos;re locked in. Your inbox is where I&apos;ll be sending all the details about the event.</p>
 
-            <div className="callout">Press this &quot;I know sender&quot; button in your email you just received from us!</div>
-
-            <div className="mock-email">
-              <div className="subj">Unknown sender not added to Calendar yet</div>
-              <div className="btns">
-                <span className="highlight">I know the sender</span>
-                <span>Report spam</span>
-              </div>
-            </div>
+            <img
+              src="/thankyou-know-sender.jpg"
+              alt="Press the &quot;I know the sender&quot; button in the email you just received from us"
+              className="email-example"
+            />
             <p className="arrow-note">↑ Make sure to check your spam or promotions folder if you don&apos;t see my email in your primary inbox.</p>
           </div>
         </div>
