@@ -189,7 +189,6 @@ export default function HomePage({ content, testimonials, schedule }) {
     };
   }, [zoomed]);
 
-  const eyebrow = schedule?.eyebrow || "Next Live Workshop";
   const heroWhen = schedule?.labelLong || "Save your free seat";
   const midWhen =
     schedule?.mode === "register" && schedule?.labelShort
@@ -212,7 +211,7 @@ export default function HomePage({ content, testimonials, schedule }) {
     const form = e.target;
     const email = form.email.value.trim();
     const payload = {
-      fullName: form.fullName.value.trim(),
+      fullName: `${form.firstName.value.trim()} ${form.lastName.value.trim()}`.trim(),
       email,
       phone: parsePhone(form.countryCode.value, form.phone.value),
       whatsappConsent: form.consentBox.checked,
@@ -259,7 +258,6 @@ export default function HomePage({ content, testimonials, schedule }) {
       {/* <Ticker /> */}
 
       <div className="hero">
-        <div className="eyebrow">{eyebrow}</div>
         <h1 className="serif reveal">
           <em>Learn</em> how to <em>build a $10K–$20K/month Airbnb business</em> without owning a
           single property or investing your personal money.
@@ -415,11 +413,10 @@ export default function HomePage({ content, testimonials, schedule }) {
       */}
 
       <div className="footer-strip" style={{ borderTop: "1px solid var(--paper-line)" }}>
-        <p style={{ maxWidth: 640, margin: "0 auto 14px", fontSize: 11, lineHeight: 1.6, color: "var(--muted)" }}>
+        <p style={{ maxWidth: 640, margin: "0 auto", fontSize: 11, lineHeight: 1.6, color: "var(--muted)" }}>
           Note: Tax strategy information is shared for educational purposes only. Always consult a
           qualified CPA or tax advisor regarding your individual situation before taking action.
         </p>
-        © 2026 Ekene. All rights reserved.
       </div>
 
       <div className="sticky-cta">
@@ -436,7 +433,10 @@ export default function HomePage({ content, testimonials, schedule }) {
             <p className="sub3">Takes less than 20 seconds.</p>
             <hr />
             <form onSubmit={handleSubmit}>
-              <div className="field-row"><input type="text" name="fullName" placeholder="Full name" required /></div>
+              <div className="field-row name-row">
+                <input type="text" name="firstName" placeholder="First name" autoComplete="given-name" required />
+                <input type="text" name="lastName" placeholder="Last name" autoComplete="family-name" required />
+              </div>
               <div className="field-row"><input type="email" name="email" placeholder="Email" required /></div>
               <div className="field-row phone-row">
                 <select name="countryCode" defaultValue={DEFAULT_COUNTRY_CODE} aria-label="Country dial code">

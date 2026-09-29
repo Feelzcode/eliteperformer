@@ -230,6 +230,8 @@ input[type="password"]:-webkit-autofill{
 
 .f-group{margin-bottom:var(--space-5);}
 .field-row{margin-bottom:14px;}
+.name-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.name-row input{min-width:0;}
 
 .f-group select{
   appearance:none;

@@ -186,7 +186,7 @@ export default function VideosPanel({ content, setContent }) {
         <div className="label">Thank-you page</div>
         <h2 className="serif">FAQ videos</h2>
         <p>
-          Shown under “Have Questions? Watch The Videos Below…”. Each video you add becomes another
+          Shown under “Frequently Asked Questions”. Each video you add becomes another
           tile on the page. The section is hidden until at least one video has a file or link.
         </p>
       </div>

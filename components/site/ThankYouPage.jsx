@@ -355,7 +355,7 @@ export default function ThankYouPage({ defaultEmail = "", content = null }) {
 
       {faqVideos.length > 0 && (
         <div className="faq-section">
-          <h2 className="serif reveal">Have Questions? Watch The Videos Below To Get The Answers You Need Directly From Ekene</h2>
+          <h2 className="serif reveal">Frequently Asked Questions</h2>
           <div className={`faq-grid${faqVideos.length === 1 ? " single" : ""}`}>
             {faqVideos.map((v) => (
               <FaqVideo key={v.id || v.url} caption={v.caption} type={v.type} url={v.url} />
@@ -381,8 +381,6 @@ export default function ThankYouPage({ defaultEmail = "", content = null }) {
         ))}
       </div>
       */}
-
-      <div className="footer-strip">© 2026 Ekene. All rights reserved.</div>
     </div>
   );
 }
