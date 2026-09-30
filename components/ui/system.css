@@ -115,8 +115,7 @@
 /* Aliases used in existing JSX */
 .btn-gold,
 .claim-btn,
-.submit-btn,
-.sticky-cta button{
+.submit-btn{
   border:none;
   cursor:pointer;
   font-family:'Work Sans',Arial,sans-serif;
@@ -149,8 +148,6 @@
 .submit-btn:hover{filter:brightness(1.05);}
 
 .submit-btn{border-radius:var(--radius-md);margin-top:6px;font-weight:800;}
-.sticky-cta button{padding:10px 18px;font-weight:700;font-size:var(--text-sm);}
-
 /* ---- forms ---- */
 .field-label,
 .f-label{

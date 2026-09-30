@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./home.css";
 import ScrollReveal from "./ScrollReveal";
 // import Ticker from "./Ticker";
 import { extractYouTubeId, youtubeEmbedUrl } from "@/lib/youtube";
 import { COUNTRY_DIAL_CODES, countryDialOptionValue } from "@/lib/country-dial-codes";
 import { useToast } from "@/components/ui/Toast";
+import { suggestEmailFix } from "@/lib/email-typo";
 
 const DEFAULT_COUNTRY_CODE = countryDialOptionValue(COUNTRY_DIAL_CODES[0]);
 
@@ -174,6 +175,9 @@ export default function HomePage({ content, testimonials, schedule }) {
   const [submitting, setSubmitting] = useState(false);
   const [submitLabel, setSubmitLabel] = useState("Claim Your Spot");
   const [zoomed, setZoomed] = useState(null);
+  const [emailHint, setEmailHint] = useState(null);
+  const hintShownFor = useRef(null);
+  const emailInput = useRef(null);
   const toast = useToast();
 
   useEffect(() => {
@@ -205,10 +209,18 @@ export default function HomePage({ content, testimonials, schedule }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setSubmitting(true);
-    setSubmitLabel("Submitting…");
     const form = e.target;
     const email = form.email.value.trim();
+    // Ask once; submitting the same address again means it's intentional.
+    const fix = suggestEmailFix(email);
+    if (fix && hintShownFor.current !== email) {
+      hintShownFor.current = email;
+      setEmailHint(fix);
+      return;
+    }
+    setEmailHint(null);
+    setSubmitting(true);
+    setSubmitLabel("Submitting…");
     const payload = {
       fullName: `${form.firstName.value.trim()} ${form.lastName.value.trim()}`.trim(),
       email,
@@ -412,18 +424,6 @@ export default function HomePage({ content, testimonials, schedule }) {
       </div>
       */}
 
-      <div className="footer-strip" style={{ borderTop: "1px solid var(--paper-line)" }}>
-        <p style={{ maxWidth: 640, margin: "0 auto", fontSize: 11, lineHeight: 1.6, color: "var(--muted)" }}>
-          Note: Tax strategy information is shared for educational purposes only. Always consult a
-          qualified CPA or tax advisor regarding your individual situation before taking action.
-        </p>
-      </div>
-
-      <div className="sticky-cta">
-        <span>214 seats reserved</span>
-        <button onClick={openModal}>Save My Seat</button>
-      </div>
-
       <div className={`overlay ${modalOpen ? "show" : ""}`} onClick={(e) => e.target === e.currentTarget && closeModal()}>
         <div className="modal">
           <button className="modal-close" onClick={closeModal} aria-label="Close">✕</button>
@@ -437,7 +437,32 @@ export default function HomePage({ content, testimonials, schedule }) {
                 <input type="text" name="firstName" placeholder="First name" autoComplete="given-name" required />
                 <input type="text" name="lastName" placeholder="Last name" autoComplete="family-name" required />
               </div>
-              <div className="field-row"><input type="email" name="email" placeholder="Email" required /></div>
+              <div className="field-row">
+                <input
+                  ref={emailInput}
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  required
+                  onChange={() => setEmailHint(null)}
+                  aria-describedby={emailHint ? "email-hint" : undefined}
+                />
+              </div>
+              {emailHint && (
+                <p id="email-hint" className="email-hint" role="alert">
+                  Did you mean{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      emailInput.current.value = emailHint;
+                      setEmailHint(null);
+                    }}
+                  >
+                    {emailHint}
+                  </button>
+                  ? If not, press the button again to continue.
+                </p>
+              )}
               <div className="field-row phone-row">
                 <select name="countryCode" defaultValue={DEFAULT_COUNTRY_CODE} aria-label="Country dial code">
                   {COUNTRY_DIAL_CODES.map((country) => {

@@ -147,15 +147,12 @@
   .faq-item.open .faq-a{max-height:220px;}
   .faq-item.open .plus{transform:rotate(45deg);}
 
-  /* ---- closing / sticky ---- */
+  .email-hint{margin:-4px 0 10px;font-size:var(--text-sm);color:var(--muted-dark);text-align:left;}
+  .email-hint button{padding:0;border:none;background:none;font:inherit;font-weight:700;color:var(--charcoal);text-decoration:underline;cursor:pointer;}
+
+  /* ---- closing ---- */
   .closing{text-align:center;padding:80px var(--space-6) 100px;}
   .closing h2{font-size:32px;margin:0 0 26px;max-width:600px;margin-left:auto;margin-right:auto;color:var(--charcoal);}
-
-  .sticky-cta{position:fixed;bottom:0;left:0;right:0;background:var(--surface);padding:12px var(--space-4);
-    display:none;align-items:center;justify-content:space-between;gap:var(--space-3);z-index:25;
-    border-top:1px solid var(--pink);}
-  .sticky-cta span{color:var(--charcoal);font-size:var(--text-sm);}
-  @media (max-width:640px){.sticky-cta{display:flex;} body{padding-bottom:64px;}}
 
   .thankyou{display:none;text-align:center;padding:6px 0;}
   .thankyou.show{display:block;}
