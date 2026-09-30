@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { registerWithEngageFoyer } from "@/lib/engagefoyer";
+import { isUndeliverableProviderTypo, suggestEmailFix } from "@/lib/email-typo";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,13 @@ export async function POST(request) {
   }
 
   const normalizedEmail = normalizeEmail(email);
+  if (isUndeliverableProviderTypo(normalizedEmail)) {
+    const fix = suggestEmailFix(normalizedEmail);
+    return NextResponse.json(
+      { error: `That email address can’t receive mail.${fix ? ` Did you mean ${fix}?` : " Please check it."}` },
+      { status: 400 },
+    );
+  }
 
   const ef = await registerWithEngageFoyer({
     fullName: fullName.trim(),

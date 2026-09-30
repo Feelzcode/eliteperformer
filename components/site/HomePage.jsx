@@ -7,7 +7,7 @@ import ScrollReveal from "./ScrollReveal";
 import { extractYouTubeId, youtubeEmbedUrl } from "@/lib/youtube";
 import { COUNTRY_DIAL_CODES, countryDialOptionValue } from "@/lib/country-dial-codes";
 import { useToast } from "@/components/ui/Toast";
-import { suggestEmailFix } from "@/lib/email-typo";
+import { isUndeliverableProviderTypo, suggestEmailFix } from "@/lib/email-typo";
 
 const DEFAULT_COUNTRY_CODE = countryDialOptionValue(COUNTRY_DIAL_CODES[0]);
 
@@ -176,6 +176,7 @@ export default function HomePage({ content, testimonials, schedule }) {
   const [submitLabel, setSubmitLabel] = useState("Claim Your Spot");
   const [zoomed, setZoomed] = useState(null);
   const [emailHint, setEmailHint] = useState(null);
+  const [emailBlocked, setEmailBlocked] = useState(false);
   const hintShownFor = useRef(null);
   const emailInput = useRef(null);
   const toast = useToast();
@@ -211,14 +212,17 @@ export default function HomePage({ content, testimonials, schedule }) {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value.trim();
-    // Ask once; submitting the same address again means it's intentional.
+    // gmail.co can never receive mail: always stop. Other look-alikes: ask once.
     const fix = suggestEmailFix(email);
-    if (fix && hintShownFor.current !== email) {
+    const blocked = isUndeliverableProviderTypo(email);
+    if ((fix || blocked) && (blocked || hintShownFor.current !== email)) {
       hintShownFor.current = email;
       setEmailHint(fix);
+      setEmailBlocked(blocked);
       return;
     }
     setEmailHint(null);
+    setEmailBlocked(false);
     setSubmitting(true);
     setSubmitLabel("Submitting…");
     const payload = {
@@ -444,23 +448,34 @@ export default function HomePage({ content, testimonials, schedule }) {
                   name="email"
                   placeholder="Email"
                   required
-                  onChange={() => setEmailHint(null)}
-                  aria-describedby={emailHint ? "email-hint" : undefined}
+                  onChange={() => {
+                    setEmailHint(null);
+                    setEmailBlocked(false);
+                  }}
+                  aria-invalid={emailBlocked || undefined}
+                  aria-describedby={emailHint || emailBlocked ? "email-hint" : undefined}
                 />
               </div>
-              {emailHint && (
+              {(emailHint || emailBlocked) && (
                 <p id="email-hint" className="email-hint" role="alert">
-                  Did you mean{" "}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      emailInput.current.value = emailHint;
-                      setEmailHint(null);
-                    }}
-                  >
-                    {emailHint}
-                  </button>
-                  ? If not, press the button again to continue.
+                  {emailBlocked ? "That email address can’t receive mail. " : ""}
+                  {emailHint && (
+                    <>
+                      Did you mean{" "}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          emailInput.current.value = emailHint;
+                          setEmailHint(null);
+                          setEmailBlocked(false);
+                        }}
+                      >
+                        {emailHint}
+                      </button>
+                      ?
+                    </>
+                  )}
+                  {!emailBlocked && " If not, press the button again to continue."}
                 </p>
               )}
               <div className="field-row phone-row">
