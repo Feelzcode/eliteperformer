@@ -8,6 +8,7 @@ import { extractYouTubeId, youtubeEmbedUrl } from "@/lib/youtube";
 import { COUNTRY_DIAL_CODES, countryDialOptionValue } from "@/lib/country-dial-codes";
 import { useToast } from "@/components/ui/Toast";
 import { isUndeliverableProviderTypo, suggestEmailFix } from "@/lib/email-typo";
+import { SMS_CONSENT_TEXT, SMS_MARKETING_CONSENT_TEXT } from "@/lib/sms-consent";
 
 const DEFAULT_COUNTRY_CODE = countryDialOptionValue(COUNTRY_DIAL_CODES[0]);
 
@@ -230,6 +231,8 @@ export default function HomePage({ content, testimonials, schedule }) {
       email,
       phone: parsePhone(form.countryCode.value, form.phone.value),
       whatsappConsent: form.consentBox.checked,
+      smsConsent: form.consentBox.checked,
+      smsMarketingConsent: form.smsMarketingBox.checked,
     };
 
     try {
@@ -492,13 +495,12 @@ export default function HomePage({ content, testimonials, schedule }) {
                 <input type="tel" name="phone" placeholder="Phone number" required />
               </div>
               <div className="consent">
-                <input type="checkbox" id="consentBox" required />
-                <label htmlFor="consentBox">
-                  By checking this box, I consent to receive transactional messages related to my
-                  account, orders, or services I have requested. These messages may include appointment
-                  reminders, order confirmations, and account notifications among others. Message &amp;
-                  data rates may apply. Reply HELP for help or STOP to opt-out.
-                </label>
+                <input type="checkbox" id="consentBox" />
+                <label htmlFor="consentBox">{SMS_CONSENT_TEXT}</label>
+              </div>
+              <div className="consent">
+                <input type="checkbox" id="smsMarketingBox" />
+                <label htmlFor="smsMarketingBox">{SMS_MARKETING_CONSENT_TEXT}</label>
               </div>
               <button type="submit" className="claim-btn" disabled={submitting}>
                 {submitLabel}

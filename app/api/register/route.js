@@ -15,7 +15,7 @@ function normalizeEmail(email) {
  */
 export async function POST(request) {
   const body = await request.json();
-  const { fullName, email, phone, whatsappConsent } = body;
+  const { fullName, email, phone, whatsappConsent, smsConsent, smsMarketingConsent } = body;
 
   if (!fullName?.trim() || !email?.trim()) {
     return NextResponse.json({ error: "Full name and email are required" }, { status: 400 });
@@ -35,6 +35,8 @@ export async function POST(request) {
     email: normalizedEmail,
     phone: phone?.trim() || undefined,
     whatsappConsent: Boolean(whatsappConsent),
+    smsConsent: smsConsent === true,
+    smsMarketingConsent: smsMarketingConsent === true,
   });
 
   if (!ef.ok) {
